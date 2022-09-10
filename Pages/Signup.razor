@@ -1,0 +1,56 @@
+@page "/signup"
+<br><MudPaper Class="pa-10 ma-15" Elevation="20" style = "width:607px; left:250px;">
+<MudText Typo="Typo.h3" GutterBottom="true">Sign Up</MudText>
+ 
+<p style="color:grey">Please fill up this form to create an account.</p><br/>   
+
+<div class="d-flex">
+<MudTextField @bind-Value="FirstName" Label="First Name" Variant="Variant.Filled" Margin="Margin.Dense" style = "width:249px;"></MudTextField>
+<MudTextField @bind-Value="LastName" Label="Last Name" Variant="Variant.Filled"  Margin="Margin.Dense" style = "width:255px;" ></MudTextField><br>
+</div>
+
+<br>
+<MudTextField @bind-Value="Email" Label="Email" Variant="Variant.Filled" style = "width:518px;"></MudTextField><br>
+<MudTextField  @bind-Value="Password" Label="Password" style = "width:518px;"  Variant="Variant.Filled" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ButtonTestclick" AdornmentAriaLabel="Show Password" />  
+<br>
+<MudTextField  @bind-Value="CPassword" Label="Confirm Password" style = "width:518px;"  Variant="Variant.Filled" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ButtonTestclick" AdornmentAriaLabel="Show Password" />   
+
+<MudCheckBox @bind-Checked="@Basic_CheckBox1" style = "left:-13px; color:grey;" >
+<t1>I accept the </t1>
+<MudButton Variant="Variant.Text" Color="Color.Primary" style = "left:-10px; top:1px;">Terms of Use & Privacy Policy</MudButton>
+
+</MudCheckBox> 
+
+<MudButton Variant="Variant.Filled" Size="Size.Large" style = "color:black;">Sign Up</MudButton>
+
+
+</MudPaper>
+@code {
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
+     public string Email { get; set; } = string.Empty;
+    public string Password { get; set;} = string.Empty;
+    public string CPassword { get; set;} = string.Empty;
+    public bool Basic_CheckBox1 { get; set; } = false;
+
+    
+
+    bool isShow;
+    InputType PasswordInput = InputType.Password;
+    string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+
+    void ButtonTestclick()
+    {
+        @if (isShow)
+        {
+            isShow = false;
+            PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+            PasswordInput = InputType.Password;
+        }
+        else {
+            isShow = true;
+            PasswordInputIcon = Icons.Material.Filled.Visibility;
+            PasswordInput = InputType.Text;
+        }
+    }
+}
