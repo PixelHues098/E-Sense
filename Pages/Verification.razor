@@ -1,0 +1,49 @@
+@page "/verification"
+<MudPaper Class="border-t border-r mx-auto mt-14" Fluid="true"  align="center" Height="500px" Width="48%" Elevation= "10">
+    <MudContainer Fluid = "true" MaxWidth="MaxWidth.Small" >
+        <MudPaper Height="390px" Width="100%" Square="true" Elevation="0" Fluid = "true">
+            <MudImage Fluid="true" Src="images/logo.png" Elevation="0" Alt="E-sense" Class="rounded-lg mt-2" Style = "width:50%; height:30%;"/>
+
+            <MudDivider Class="mt-3" />
+
+            <MudText Class="mx-auto mt-3" Align="Align.Center" Style="font-size: 20px;"><b>Verify Your Account</b></MudText>
+            <MudText Class="mt-2 mx-16 mud-text-secondary"Typo="Typo.body1" Align="Align.Center" Style="font-size: 14px;">We sent you a 6-digit code to your email address. Please enter the code to verify your account.</MudText>
+            <MudPaper Class="d-flex justify-center flex-grow-20 gap-4" Fluid="true" Elevation="0">    
+            <MudPaper Class="mt-7  border-2 border-solid border mud-border-primary-text pa-4"  Fluid="true"  Width="55px"  Height="57px" Elevation= "10">
+            <MudTextField Style = "Top:-42px; Width:29px; font-size:39px;"  T="string"  MaxLength="1" Immediate="true"  />
+            </MudPaper>   
+            <MudPaper Class="mt-7  border-2 border-solid border mud-border-primary-text pa-4" Fluid="true"  Width="55px"  Height="57px" Elevation= "10">
+            <MudTextField Style = "Top:-42px; Width:29px; font-size:39px;" T="string"  MaxLength="1" Immediate="true" Variant="Variant.Text"  />
+            </MudPaper>    
+            <MudPaper Class="mt-7 border-2 border-solid border mud-border-primary-text pa-4" Fluid="true"  Width="55px"  Height="57px" Elevation= "10">
+            <MudTextField Style = "Top:-42px; Width:29px; font-size:39px;" T="string"  MaxLength="1" Immediate="true" Variant="Variant.Text"  />
+            </MudPaper>  
+            <MudPaper Class="mt-7 border-2 border-solid border mud-border-primary-text pa-4" Fluid="true"  Width="55px"  Height="57px" Elevation= "10">
+            <MudTextField Style = "Top:-42px; Width:29px; font-size:39px;" T="string"  MaxLength="1" Immediate="true" Variant="Variant.Text"  />
+            </MudPaper>  
+            <MudPaper Class="mt-7 border-2 border-solid border mud-border-primary-text pa-4" Fluid="true"  Width="55px"  Height="57px" Elevation= "10">
+            <MudTextField Style = "Top:-42px; Width:29px; font-size:39px;" T="string"  MaxLength="1" Immediate="true" Variant="Variant.Text"  />
+            </MudPaper>  
+            <MudPaper Class="mt-7 border-2 border-solid border mud-border-primary-text pa-4" Fluid="true"  Width="55px"  Height="57px" Elevation= "10">
+            <MudTextField Style = "Top:-42px; Width:29px; font-size:39px;" T="string"  MaxLength="1" Immediate="true" Variant="Variant.Text"  />
+            </MudPaper>  
+           
+
+</MudPaper>
+           
+           <MudButton Href="login" Variant="Variant.Filled" Style = " background-color: #000000; color:white; left =50px; Height=50px;" Class ="mt-10"  ><b>Submit</b></MudButton>
+         
+</MudPaper>
+        
+        <MudText Class="mt-5" fluid="true" Align="Align.Left" style="font-size: 13px;"><b>Need Support?</b></MudText>
+        <MudText Class="mt-1"Typo="Typo.body1" Align="Align.Left" style="font-size: 12px;">Feel free to email us if you have any questions, comments, or suggestions. We'll be happy to receive your issues.</MudText>
+    </MudContainer>
+</MudPaper>
+
+@code {
+    private IEnumerable<string> MaxCharacters(string ch)
+    {
+        if (!string.IsNullOrEmpty(ch) && 1 < ch?.Length)
+            yield return "Max 1 characters";
+    }
+}
