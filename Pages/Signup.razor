@@ -1,0 +1,90 @@
+@page "/signup"
+
+@* Sign Up title, Description and Divider *@
+
+
+    <MudPaper Fluid="true" Class = "pa-10 ma-15  border-solid border mud-border-primary-text" Elevation = "20" Style = "width:607px; left:250px; border-radius:3% 3%;" >
+    <MudText Typo = "Typo.h3" GutterBottom = "true" ><b>Sign Up</b></MudText>
+ 
+    <p style="color:grey">Please fill in this form to create an account.</p><br/>
+    <MudDivider Class="mt-1 mb-6 " Style = "width:98% color:black;" />
+
+@* Sign Up title, Description and Divider *@
+
+
+
+@* FirstName,LastName,Email,Password,CPassword text fields *@
+
+<div class="d-flex gap-4">
+    <MudTextField @bind-Value="FirstName" Class = " border-solid border mud-border-primary-text" Label = "First Name" Variant = "Variant.Filled" Margin = "Margin.Dense" Style = "width:100%;"> </MudTextField>
+    <MudTextField @bind-Value="LastName"  Class = " border-solid border mud-border-primary-text" Label = "Last Name" Variant = "Variant.Filled"  Margin = "Margin.Dense" Style = "width:100%;" > </MudTextField>
+</div>
+    <MudTextField @bind-Value="Email" Class =" border-solid border mud-border-primary-text mt-7 mb-7"  Label = "Email" Variant="Variant.Filled" Style = "width:525px;"></MudTextField>
+    <MudTextField  @bind-Value="Password" Class = "border-solid border mud-border-primary-text mt-7 mb-7" Label ="Password" Style = "width:525px;"  Variant ="Variant.Filled" InputType="@PasswordInput" Adornment = "Adornment.End" AdornmentIcon = "@PasswordInputIcon" OnAdornmentClick = "ButtonTestclick" AdornmentAriaLabel ="Show Password" />  
+    <MudTextField  @bind-Value="CPassword" Class = "border-solid border mud-border-primary-text" Label ="Confirm Password" Style = "width:525px;"  Variant ="Variant.Filled" InputType="@PasswordInput" Adornment = "Adornment.End" AdornmentIcon = "@PasswordInputIcon" OnAdornmentClick = "ButtonTestclick" AdornmentAriaLabel = "Show Password" />   
+
+
+@* FirstName,LastName,Email,Password,CPassword text fields *@
+
+
+
+@* Checkbox and "I accept the" text *@
+
+<div class="dflex">
+    <MudCheckBox @bind-Checked="@Basic_CheckBox1" Style = "left:-13px;" >
+    <t1>I accept the </t1>
+    <MudButton Variant="Variant.Text" Color="Color.Primary" Style = "left:-10px; top:1px;">Terms of Use & Privacy Policy</MudButton>
+    </MudCheckBox>
+</div>
+
+@* Checkbox and "I accept the" text *@
+
+
+
+@* Sign up Button *@
+
+<div>
+    <MudButton Href = "verification" Variant="Variant.Filled" Size="Size.Large" Style = "background-color: #000000; color:white;">Sign Up</MudButton>
+</div>
+
+@* Sign up Button *@
+
+</MudPaper>
+
+
+
+
+
+@* Codes *@
+
+@code {
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
+     public string Email { get; set; } = string.Empty;
+    public string Password { get; set;} = string.Empty;
+    public string CPassword { get; set;} = string.Empty;
+    public bool Basic_CheckBox1 { get; set; } = false;
+
+    
+
+    bool isShow;
+    InputType PasswordInput = InputType.Password;
+    string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+
+    void ButtonTestclick()
+    {
+        @if (isShow)
+        {
+            isShow = false;
+            PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+            PasswordInput = InputType.Password;
+        }
+        else {
+            isShow = true;
+            PasswordInputIcon = Icons.Material.Filled.Visibility;
+            PasswordInput = InputType.Text;
+        }
+    }
+}
+
+@* Codes *@
