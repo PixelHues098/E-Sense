@@ -1,0 +1,90 @@
+@page "/login"
+<MudPaper Class=" mx-auto mt-14 border-solid border mud-border-primary-text" Fluid="true" align="center" Height="706px" Width="607px" Elevation= "20">
+    <MudContainer MaxWidth="MaxWidth.Small">
+        <MudPaper Height="390px" Width="100%" Square="true" Elevation="0">
+            <MudImage Fluid="true" Src="images/logo2.png" Elevation="0" Alt="E-sense" Class="rounded-lg mt-2" Style = "width:50%; height:50%;"/>
+            <MudText Class="mx-auto mt-1" Align="Align.Center" Typo="Typo.h3"><b>LOGIN</b></MudText>
+            <MudDivider Class="mt-3" />
+
+            
+             
+            
+            <MudTextField @bind-Value="Username" Class = "mt-7 ml-2 mr-2"  Label = "Username" Variant = "Variant.Text" Margin = "Margin.Dense" Style = "width:100%;"> </MudTextField>
+            <MudTextField  @bind-Value="Password" Class = "mt-7 ml-2 mr-2 mb-7" Label ="Password" Style = "width:100%;"  Variant ="Variant.Text" InputType="@PasswordInput" Adornment = "Adornment.End" AdornmentIcon = "@PasswordInputIcon" OnAdornmentClick = "ButtonTestclick" AdornmentAriaLabel ="Show Password" />  
+            
+            <MudPaper align = "left" Elevation  = "0"> 
+            
+            <MudButton href = "forgotpassword" Class = "ml-3" Variant="Variant.Text" Color="Color.Primary" align="left" Style = "right:9px; top:-10px;">Forgot password?</MudButton>  
+            
+            </MudPaper>
+
+            
+
+                
+
+            
+
+            
+           
+            <MudPaper Class="d-flex justify-center flex-grow-20 gap-4" Elevation="0">
+           
+            
+
+           
+            
+</MudPaper>
+            <MudPaper align = "center" Elevation  = "0" Width = "55%" Height = "13%"  > 
+            
+            <MudButton Variant="Variant.Filled" Style = " font-size:20px; width:100%; height:100%; background-color: #000000; color:white; left =50px;" Class ="mt-3 rounded-pill" ><b>LOGIN</b></MudButton>
+            
+            </MudPaper>
+
+            
+            <MudPaper align = "center" Elevation = "0" Height ="30%" >
+                <div>
+                <MudText Class="mx-auto mt-10" Align="Align.Center" Typo="Typo.h6">Not a member?
+                <MudButton Href = "signup" Style = "font-size:20px; left:-8px" Variant="Variant.Text" Color="Color.Primary" >Sign up</MudButton>
+                </MudText>
+                </div>
+                
+                
+                
+              
+                
+                
+              
+
+            </MudPaper> 
+            
+    </MudPaper>
+        
+        
+    </MudContainer>
+</MudPaper>
+
+@code {
+public string Username { get; set; } = string.Empty;
+public string Password { get; set;} = string.Empty;
+bool isShow;
+    InputType PasswordInput = InputType.Password;
+    string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+
+    void ButtonTestclick()
+    {
+        @if (isShow)
+        {
+            isShow = false;
+            PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+            PasswordInput = InputType.Password;
+        }
+        else {
+            isShow = true;
+            PasswordInputIcon = Icons.Material.Filled.Visibility;
+            PasswordInput = InputType.Text;
+        }
+    }
+}
+
+
+
+
