@@ -16,8 +16,8 @@
 @* FirstName,LastName,Email,Password,CPassword text fields *@
 
 <div class="d-flex gap-4">
-    <MudTextField @bind-Value="FirstName" Class = " border-solid border mud-border-primary-text" Label = "First Name" Variant = "Variant.Filled" Margin = "Margin.Dense" Style = "width:100%;"> </MudTextField>
-    <MudTextField @bind-Value="LastName"  Class = " border-solid border mud-border-primary-text" Label = "Last Name" Variant = "Variant.Filled"  Margin = "Margin.Dense" Style = "width:100%;" > </MudTextField>
+    <MudTextField @bind-Value="FName" Class = " border-solid border mud-border-primary-text" Label = "First Name" Variant = "Variant.Filled" Margin = "Margin.Dense" Style = "width:100%;"> </MudTextField>
+    <MudTextField @bind-Value="LName"  Class = " border-solid border mud-border-primary-text" Label = "Last Name" Variant = "Variant.Filled"  Margin = "Margin.Dense" Style = "width:100%;" > </MudTextField>
 </div>
     <MudTextField @bind-Value="Email" Class =" border-solid border mud-border-primary-text mt-7 mb-7"  Label = "Email" Variant="Variant.Filled" Style = "width:525px;"></MudTextField>
     <MudTextField  @bind-Value="Password" Class = "border-solid border mud-border-primary-text mt-7 mb-7" Label ="Password" Style = "width:525px;"  Variant ="Variant.Filled" InputType="@PasswordInput" Adornment = "Adornment.End" AdornmentIcon = "@PasswordInputIcon" OnAdornmentClick = "ButtonTestclick" AdornmentAriaLabel ="Show Password" />  
@@ -58,8 +58,8 @@
 @* Codes *@
 
 @code {
-    public string FirstName { get; set; } = string.Empty;
-    public string LastName { get; set; } = string.Empty;
+    public string FName { get; set; } = string.Empty;
+    public string LName { get; set; } = string.Empty;
      public string Email { get; set; } = string.Empty;
     public string Password { get; set;} = string.Empty;
     public string CPassword { get; set;} = string.Empty;
