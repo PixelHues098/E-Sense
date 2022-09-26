@@ -1,31 +1,31 @@
 ﻿<MudNavMenu>
-    <MudDivider Class = />
-    <MudNavGroup Class= "pointer-events-auto mt-2" Title="Planning" @bind-Expanded=_isExpanded1>
-            <MudNavLink Icon = "@Icons.Filled.Map" Href="/roadmap">Roadmap</MudNavLink>
-            <MudNavLink Icon= "@Icons.Filled.Task" Href="/backlog">Backlog</MudNavLink>
-            <MudNavLink Icon= "@Icons.Filled.DoubleArrow" Href="/activesprints">Active Sprints</MudNavLink>
-            <MudNavLink Icon = "@Icons.Filled.InsertDriveFile" Href="/reports">Reports</MudNavLink>
-        </MudNavGroup>
-    
-    
-         <MudNavGroup Class = "mt-4"  Title="Development" @bind-Expanded=_isExpanded2>
-            <MudNavLink Icon = "@Icons.Filled.Update" Href="/history">History</MudNavLink>
-            <MudNavLink Icon = "@Icons.Filled.NewReleases" Href="/releases">Releases</MudNavLink>
-        </MudNavGroup>
-    
+    <MudDivider Class= />
+    <MudNavGroup Class="pointer-events-auto mt-2" Title="Planning" @bind-Expanded=_isExpanded1>
+        <MudNavLink Icon="@Icons.Filled.Map" Href="/roadmap">Roadmap</MudNavLink>
+        <MudNavLink Icon="@Icons.Filled.Task" Href="/backlog">Backlog</MudNavLink>
+        <MudNavLink Icon="@Icons.Filled.DoubleArrow" Href="/activesprints">Active Sprints</MudNavLink>
+        <MudNavLink Icon="@Icons.Filled.InsertDriveFile" Href="/reports">Reports</MudNavLink>
+    </MudNavGroup>
 
-   
-         <MudNavGroup Class = "mt-4"  Title="Settings" @bind-Expanded=_isExpanded3>
-            <MudNavLink Icon = "@Icons.Filled.KeyboardArrowRight" Href="/details">Detatils</MudNavLink>
-            <MudNavLink Icon = "@Icons.Filled.KeyboardArrowRight" Href="/security">Security</MudNavLink>
-            <MudNavLink Icon = "@Icons.Filled.KeyboardArrowRight" Href="/permissions">Permissions</MudNavLink>
-        </MudNavGroup>
-    
 
-   
+    <MudNavGroup Class="mt-4" Title="Development" @bind-Expanded=_isExpanded2>
+        <MudNavLink Icon="@Icons.Filled.Update" Href="/history">History</MudNavLink>
+        <MudNavLink Icon="@Icons.Filled.NewReleases" Href="/releases">Releases</MudNavLink>
+    </MudNavGroup>
+
+
+
+    <MudNavGroup Class="mt-4" Title="Settings" @bind-Expanded=_isExpanded3>
+        <MudNavLink Icon="@Icons.Filled.KeyboardArrowRight" Href="/details">Detatils</MudNavLink>
+        <MudNavLink Icon="@Icons.Filled.KeyboardArrowRight" Href="/security">Security</MudNavLink>
+        <MudNavLink Icon="@Icons.Filled.KeyboardArrowRight" Href="/permissions">Permissions</MudNavLink>
+    </MudNavGroup>
+
+
+
 </MudNavMenu>
 
-@code{
+@code {
     bool _isExpanded1 = true;
 
     bool _isExpanded2 = true;
