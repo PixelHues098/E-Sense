@@ -3,22 +3,20 @@
 <MudContainer MaxWidth="MaxWidth.Small">
     <MudPaper Class="rounded-lg">
 
-        <MudContainer>
-            <MudImage Fluid = "true" Src="images/logo2.png" Width="332" Height="180"  Alt="Swedish Farm House" Elevation="0"
-             Class="pl-10 ml-16 rounded-lg align-center "/>
-            <MudText Class= "mb-5" Align = "Align.Center" Typo="Typo.h3">LOGIN</MudText>
-        </MudContainer>
+        <div class="d-flex justify-center">
+            <MudImage Fluid="true" Src="images/logo2.png" Width="332" Height="180"  Alt="E-Sense Logo" Elevation="0"
+            Class="rounded-lg"/>
+        </div>
+        <MudText Class= "mb-5" Align = "Align.Center" Typo="Typo.h3">LOGIN</MudText>
 
         <MudDivider />
 
         <MudContainer Class="pt-9 pb-5 px-16 d-flex flex-column gap-4">
 
-
             <MudTextField @bind-Value="Email" Label="Email" Variant="Variant.Text" />
             <MudTextField @bind-Value="Password" Label="Password" Variant="Variant.Text" InputType="@PasswordInput"
                 Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ShowHidePassClick"
                 AdornmentAriaLabel="Show Password" />
-
 
                 <MudPaper Class="mb-9" Elevation ="0"   >
                  <MudButton Href="signup"  Variant="Variant.Text" Color="Color.Primary">
@@ -32,8 +30,6 @@
                     Not a member?
                  <MudButton Class= "mr-1" Href="signup" Variant="Variant.Text" Color="Color.Primary"> Sign up </MudButton>
                 </MudText>
-
-            
            
         </MudContainer>
 
