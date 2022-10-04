@@ -1,5 +1,6 @@
 ﻿@page "/fetchdata"
 @inject HttpClient Http
+@inject IJSRuntime JSRuntime
 @using MyApplication.Shared
 
 <PageTitle>Weather forecast</PageTitle>
@@ -38,6 +39,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+            await JSRuntime.InvokeVoidAsync("console.log", "Hello Blazor!");
     }
     public class WeatherForecast
     {
@@ -49,4 +51,5 @@ else
 
         public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
     }
+
 }

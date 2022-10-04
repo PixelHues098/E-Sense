@@ -1,0 +1,32 @@
+@page "/fetchartist"
+@inject HttpClient Http
+@inject IJSRuntime JSRuntime
+@using MyApplication.Shared
+
+<PageTitle>Weather forecast</PageTitle>
+
+<MudText Typo="Typo.h3" GutterBottom="true">@artist.Price</MudText>
+
+
+
+@code {
+    private Albums? artist;
+
+    public string pie= "3.14";
+    protected override async Task OnInitializedAsync()
+    {
+        artist = await Http.GetFromJsonAsync<Albums>("http://localhost:8080/albums/1");
+             await JSRuntime.InvokeVoidAsync("console.log", artist);
+    }
+    public class Albums
+    {
+        public int Id { get; set; }
+
+        public string? Title { get; set; }
+
+        public string? Artist { get; set; }
+
+        public string? Price { get; set; }
+
+    }
+}
