@@ -4,33 +4,29 @@
     <MudPaper Class="rounded-lg">
 
         <div class="d-flex justify-center">
-            <MudImage Fluid="true" Src="images/logo2.png" Width="332" Height="180"  Alt="E-Sense Logo" Elevation="0"
-            Class="rounded-lg"/>
+            <MudImage Fluid="true" Src="images/logo2.png" Width="332" Height="180" Alt="E-Sense Logo" Elevation="0"
+                Class="rounded-lg" />
         </div>
-        <MudText Class= "mb-5" Align = "Align.Center" Typo="Typo.h3">LOGIN</MudText>
-
         <MudDivider />
-
         <MudContainer Class="pt-9 pb-5 px-16 d-flex flex-column gap-4">
-
             <MudTextField @bind-Value="Email" Label="Email" Variant="Variant.Text" />
             <MudTextField @bind-Value="Password" Label="Password" Variant="Variant.Text" InputType="@PasswordInput"
                 Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ShowHidePassClick"
                 AdornmentAriaLabel="Show Password" />
 
-                <MudPaper Class="mb-9" Elevation ="0"   >
-                 <MudButton Href="signup"  Variant="Variant.Text" Color="Color.Primary">
-                        Forgot password ?
-                    </MudButton>
+            <div Class="mb-5">
+                <MudButton Href="signup" Variant="Variant.Text" Color="Color.Primary">
+                    Forgot password?
+                </MudButton>
+            </div>
 
-                </MudPaper>
+            <MudButton Class="mr-16 ml-16 mb-6 rounded-pill" Variant="Variant.Filled" Color="Color.Primary"
+                Size="Size.Large">Login</MudButton>
+            <MudText Align="Align.Center">
+                Not a member?
+                <MudButton Class="mr-1" Href="signup" Variant="Variant.Text" Color="Color.Primary"> Sign up </MudButton>
+            </MudText>
 
-                <MudButton Class ="mr-16 ml-16 mb-6 rounded-pill" Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large">Login</MudButton>
-                <MudText Align="Align.Center">
-                    Not a member?
-                 <MudButton Class= "mr-1" Href="signup" Variant="Variant.Text" Color="Color.Primary"> Sign up </MudButton>
-                </MudText>
-           
         </MudContainer>
 
     </MudPaper>
@@ -40,9 +36,6 @@
 
     public string Email { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
-
-
-
 
     bool isShow;
     InputType PasswordInput = InputType.Password;
