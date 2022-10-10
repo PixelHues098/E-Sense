@@ -1,0 +1,98 @@
+@* a
+@page "/signup"
+@inject HttpClient Http //equivalent to private --> private HttpClient Http = new HttpClient();
+@inject IJSRuntime JSRuntime
+@using MyApplication.Shared;
+@inject NavigationManager NavigationManager
+
+<PageTitle>Sign Up</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Small">
+    <MudPaper Class="rounded-lg">
+
+        <MudContainer Class="pt-10 pb-6 px-10">
+            <MudText Typo="Typo.h4">Sign Up</MudText>
+            <MudText Align="Align.Left" Class="grey-text">
+                Please fill in this form to create an account
+            </MudText>
+        </MudContainer>
+
+        <MudDivider />
+
+        <MudContainer Class="pt-6 pb-10 px-10 d-flex flex-column gap-4">
+
+            <div class="d-flex justify-space-between flex-grow-1 gap-4">
+                <MudTextField @bind-Value="FirstName" Label="First Name" Variant="Variant.Outlined"
+                    Class="flex-auto flex-grow-1" />
+                <MudTextField @bind-Value="LastName" Label="Last Name" Variant="Variant.Outlined"
+                    Class="flex-auto flex-grow-1" />
+            </div>
+
+            <MudTextField @bind-Value="Email" Label="Email" Variant="Variant.Outlined" />
+            <MudTextField @bind-Value="Password" Label="Password" Variant="Variant.Outlined" InputType="@PasswordInput"
+                Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ShowHidePassClick"
+                AdornmentAriaLabel="Show Password" />
+            <MudTextField @bind-Value="CPassword" Label="Confirm Password" Variant="Variant.Outlined" InputType="@PasswordInput"
+                Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ShowHidePassClick"
+                AdornmentAriaLabel="Show Password" />
+
+            <MudCheckBox @bind-Checked="@Basic_CheckBox1" Label="I accept the Terms of Use & Privacy Policy" />
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large">Sign Up</MudButton>
+
+        </MudContainer>
+
+    </MudPaper>
+</MudContainer>
+
+@code {
+
+    private System.Net.Http.HttpResponseMessage? registerResponse;
+    private RegisterUser? users1 = new RegisterUser();
+    private int num1 = 1;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Console.WriteLine("hi!");
+        Console.WriteLine(users1);
+        registerResponse = await Http.PostAsJsonAsync<RegisterUser>("http:localhost:8080/album", users1);
+            Console.WriteLine(registerResponse);
+    }
+
+    public class RegisterUser
+    {
+        string Title { get; set; } = "Duterte";
+        string Artist { get; set; } = "Jon";
+        string Price { get; set; } = "1234";
+    }
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
+    public string CPassword { get; set; } = string.Empty;
+    public bool Basic_CheckBox1 { get; set; } = false;
+
+    bool isShow;
+    InputType PasswordInput = InputType.Password;
+    string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+
+    void ShowHidePassClick()
+    {
+        @if (isShow)
+        {
+            isShow = false;
+            PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+            PasswordInput = InputType.Password;
+        }
+        else
+        {
+            isShow = true;
+            PasswordInputIcon = Icons.Material.Filled.Visibility;
+            PasswordInput = InputType.Text;
+        }
+    
+    }
+
+}
+
+@* Codes *@
+a *@@

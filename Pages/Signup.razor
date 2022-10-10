@@ -1,4 +1,12 @@
 @page "/signup"
+@inject HttpClient Http //equivalent to private --> private HttpClient Http = new HttpClient();
+@inject IJSRuntime JSRuntime
+@using MyApplication.Shared;
+@inject NavigationManager NavigationManager
+@using System.Text.RegularExpressions
+@using System.ComponentModel.DataAnnotations
+
+<PageTitle>Sign Up</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.Small">
     <MudPaper Class="rounded-lg">
@@ -12,40 +20,63 @@
 
         <MudDivider />
 
-        <MudContainer Class="pt-6 pb-10 px-10 d-flex flex-column gap-4">
+        <MudForm Class="pt-6 pb-10 px-10 d-flex flex-column gap-4" @ref="form" @bind-IsValid="@success"
+            @bind-Errors="@errors">
 
             <div class="d-flex justify-space-between flex-grow-1 gap-4">
                 <MudTextField @bind-Value="FirstName" Label="First Name" Variant="Variant.Outlined"
-                    Class="flex-auto flex-grow-1" />
+                    Class="flex-auto flex-grow-1" Required="true" RequiredError="First Name is required!" />
                 <MudTextField @bind-Value="LastName" Label="Last Name" Variant="Variant.Outlined"
-                    Class="flex-auto flex-grow-1" />
+                    Class="flex-auto flex-grow-1" Required="true" RequiredError="Last Name is required!" />
             </div>
 
-            <MudTextField @bind-Value="Email" Label="Email" Variant="Variant.Outlined" />
-            <MudTextField @bind-Value="Password" Label="Password" Variant="Variant.Outlined" InputType="@PasswordInput"
-                Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ShowHidePassClick"
-                AdornmentAriaLabel="Show Password" />
-            <MudTextField @bind-Value="CPassword" Label="Confirm Password" Variant="Variant.Outlined" InputType="@PasswordInput"
-                Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ShowHidePassClick"
-                AdornmentAriaLabel="Show Password" />
+            <MudTextField @bind-Value="Email" Label="Email" Variant="Variant.Outlined"
+                RequiredError="An Email is required!"
+                Validation="@(new EmailAddressAttribute() {ErrorMessage = "The email address is invalid "})" />
+            <MudTextField @bind-Value="Password" HelperText="Choose a strong password" @ref="pwField1" Label="Password"
+                Variant="Variant.Outlined" InputType="@PasswordInput"
+                Validation="@(new Func<string, IEnumerable<string>>(PasswordStrength))" Required="true"
+                RequiredError="Password is required!" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon"
+                OnAdornmentClick="ShowHidePassClick" AdornmentAriaLabel="Show Password" />
+            <MudTextField @bind-Value="CPassword" HelperText="Repeat the password" Label="Confirm Password"
+                Variant="Variant.Outlined" InputType="@PasswordInput" Adornment="Adornment.End"
+                AdornmentIcon="@PasswordInputIcon" Validation="@(new Func<string, string>(PasswordMatch))"
+                OnAdornmentClick="ShowHidePassClick" AdornmentAriaLabel="Show Password" />
 
             <MudCheckBox @bind-Checked="@Basic_CheckBox1" Label="I accept the Terms of Use & Privacy Policy" />
             <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large">Sign Up</MudButton>
 
-        </MudContainer>
+        </MudForm>
 
     </MudPaper>
 </MudContainer>
 
 @code {
+
+    private System.Net.Http.HttpResponseMessage? registerResponse;
+    private RegisterUser? users1 = new RegisterUser();
+    private int num1 = 1;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Console.WriteLine("hi!");
+        Console.WriteLine(users1);
+        registerResponse = await Http.PostAsJsonAsync<RegisterUser>("http://192.168.1.4:8080/album", users1);
+        Console.WriteLine(registerResponse);
+    }
+
+    public class RegisterUser
+    {
+        string Title { get; set; } = "Duterte";
+        string Artist { get; set; } = "Jon";
+        string Price { get; set; } = "1234";
+    }
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
     public string CPassword { get; set; } = string.Empty;
     public bool Basic_CheckBox1 { get; set; } = false;
-
-
 
     bool isShow;
     InputType PasswordInput = InputType.Password;
@@ -66,6 +97,35 @@
             PasswordInput = InputType.Text;
         }
     }
-}
+        bool success;
+        string[] errors = { };
+        MudTextField<string> pwField1;
+        MudForm form;
 
-@* Codes *@
+        private IEnumerable<string> PasswordStrength(string pw)
+        {
+            if (string.IsNullOrWhiteSpace(pw))
+            {
+                yield return "Password is required!";
+                yield break;
+            }
+            if (pw.Length < 8)
+                yield return "Password must be at least of length 8";
+            if (!Regex.IsMatch(pw, @"[A-Z]"))
+                yield return "Password must contain at least one capital letter";
+            if (!Regex.IsMatch(pw, @"[a-z]"))
+                yield return "Password must contain at least one lowercase letter";
+            if (!Regex.IsMatch(pw, @"[0-9]"))
+                yield return "Password must contain at least one digit";
+        }
+
+        private string PasswordMatch(string arg)
+        {
+            if (pwField1.Value != arg)
+                return "Passwords don't match";
+            return null;
+        }
+
+    }
+
+
