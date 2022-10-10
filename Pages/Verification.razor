@@ -1,0 +1,64 @@
+@page "/signup5"
+    <MudContainer MaxWidth="MaxWidth.Small">
+        <MudPaper Class="rounded-lg align-content-center" Elevation="20">
+
+            <MudContainer>
+                <MudImage Fluid="true" Src="images/logo.png" Width="332" Height="180" Alt="E-sense"
+                    Elevation="0" Class="pl-10 ml-16 rounded-lg align-center " />
+
+            </MudContainer>
+
+            <MudDivider />
+
+            <MudContainer Class="pt-9 pb-5 px-16 d-flex flex-column gap-4">
+                <MudText Class="mb-1" Align="Align.Center" Typo="Typo.h4">Verify Your Account</MudText>
+                <MudText Class=" mx-10 mud-text-secondary" Typo="Typo.body1" Align="Align.Center"
+                    Style="font-size: 14px;">
+                    We sent you a 6-digit code to your email address. Please enter the code to verify your account.
+                </MudText>
+
+
+                <div class=" justify-center d-flex flex-grow-1 gap-4">
+                    <MudPaper Class="flex-none d-flex py-8 " Width="50px" Height="50px" Elevation="0" >
+                        <MudTextField Style = "font-size:39px;"  T="string" MaxLength="1" Immediate="true" Variant="Variant.Outlined" />
+                    </MudPaper>
+                    <MudPaper Class="flex-none d-flex py-8 " Width="50px" Elevation="0">
+                        <MudTextField Style = "font-size:39px;" T="string" MaxLength="1" Immediate="true" Variant="Variant.Outlined" />
+                    </MudPaper>
+                    <MudPaper Class="flex-none d-flex py-8 " Width="50px" Elevation="0">
+                        <MudTextField Style = "font-size:39px;" T="string" MaxLength="1" Immediate="true" Variant="Variant.Outlined" />
+                    </MudPaper>
+                    <MudPaper Class="flex-none d-flex py-8 " Width="50px" Elevation="0">
+                        <MudTextField Style = "font-size:39px;" T="string" MaxLength="1" Immediate="true" Variant="Variant.Outlined" />
+                    </MudPaper>
+                    <MudPaper Class="flex-none d-flex py-8 " Width="50px" Elevation="0">
+                        <MudTextField Style = "font-size:39px;" T="string" MaxLength="1" Immediate="true" Variant="Variant.Outlined" />
+                    </MudPaper>
+                    <MudPaper Class="flex-none d-flex py-8 " Width="50px" Elevation="0">
+                        <MudTextField Style = "font-size:39px;" T="string" MaxLength="1" Immediate="true" Variant="Variant.Outlined" />
+                    </MudPaper>
+                </div>
+
+
+                <MudButton Class="mr-16 ml-16 mb-6 rounded-pill" Variant="Variant.Filled" Color="Color.Primary"
+                    Size="Size.Large">Submit</MudButton>
+
+                <MudPaper Class = "ml-6 mt-6 " Elevation="0">
+                <MudText Class="mt-1" Align="Align.Left" Typo=Typo.h6>Need Support?</MudText>
+                <MudText Class="mr-6" Typo="Typo.body2" Align="Align.Left">
+                Feel free to email us if you have any questions, comments, or suggestions. We'll be happy to receive your issues.
+                </MudText>
+                </MudPaper>
+
+            </MudContainer>
+
+        </MudPaper>
+    </MudContainer>
+
+@code {
+    private IEnumerable<string> MaxCharacters(string ch)
+    {
+        if (!string.IsNullOrEmpty(ch) && 25 < ch?.Length)
+            yield return "Max 25 characters";
+    }
+}
