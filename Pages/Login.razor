@@ -1,0 +1,61 @@
+@page "/login"
+
+<MudContainer MaxWidth="MaxWidth.Small">
+    <MudPaper Class="rounded-lg">
+
+        <div class="d-flex justify-center">
+            <MudImage Fluid="true" Src="images/logo2.png" Width="332" Height="180" Alt="E-Sense Logo" Elevation="0"
+                Class="rounded-lg" />
+        </div>
+        <MudDivider />
+        <MudContainer Class="pt-9 pb-5 px-16 d-flex flex-column gap-4">
+            <MudTextField @bind-Value="Email" Label="Email" Variant="Variant.Text" />
+            <MudTextField @bind-Value="Password" Label="Password" Variant="Variant.Text" InputType="@PasswordInput"
+                Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ShowHidePassClick"
+                AdornmentAriaLabel="Show Password" />
+
+            <div Class="mb-5">
+                <MudButton Href="signup" Variant="Variant.Text" Color="Color.Primary">
+                    Forgot password?
+                </MudButton>
+            </div>
+
+            <MudButton Class="mr-16 ml-16 mb-6 rounded-pill" Variant="Variant.Filled" Color="Color.Primary"
+                Size="Size.Large">Login</MudButton>
+            <MudText Align="Align.Center">
+                Not a member?
+                <MudButton Class="mr-1" Href="signup" Variant="Variant.Text" Color="Color.Primary"> Sign up </MudButton>
+            </MudText>
+
+        </MudContainer>
+
+    </MudPaper>
+</MudContainer>
+
+@code {
+
+    public string Email { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
+
+    bool isShow;
+    InputType PasswordInput = InputType.Password;
+    string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+
+    void ShowHidePassClick()
+    {
+        @if (isShow)
+        {
+            isShow = false;
+            PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+            PasswordInput = InputType.Password;
+        }
+        else
+        {
+            isShow = true;
+            PasswordInputIcon = Icons.Material.Filled.Visibility;
+            PasswordInput = InputType.Text;
+        }
+    }
+}
+
+@* Codes *@
