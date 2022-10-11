@@ -31,6 +31,7 @@
             </div>
 
             <MudTextField @bind-Value="Email" Label="Email" Variant="Variant.Outlined"
+                Required="true"
                 RequiredError="An Email is required!"
                 Validation="@(new EmailAddressAttribute() {ErrorMessage = "The email address is invalid "})" />
             <MudTextField @bind-Value="Password" HelperText="Choose a strong password" @ref="pwField1" Label="Password"
@@ -39,6 +40,7 @@
                 RequiredError="Password is required!" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon"
                 OnAdornmentClick="ShowHidePassClick" AdornmentAriaLabel="Show Password" />
             <MudTextField @bind-Value="CPassword" HelperText="Repeat the password" Label="Confirm Password"
+                Required="true"
                 Variant="Variant.Outlined" InputType="@PasswordInput" Adornment="Adornment.End"
                 AdornmentIcon="@PasswordInputIcon" Validation="@(new Func<string, string>(PasswordMatch))"
                 OnAdornmentClick="ShowHidePassClick" AdornmentAriaLabel="Show Password" />
@@ -61,7 +63,7 @@
     {
         Console.WriteLine("hi!");
         Console.WriteLine(users1);
-        registerResponse = await Http.PostAsJsonAsync<RegisterUser>("http://192.168.1.4:8080/album", users1);
+        registerResponse = await Http.PostAsJsonAsync<RegisterUser>("http://localhost:8080/album", users1);
         Console.WriteLine(registerResponse);
     }
 
