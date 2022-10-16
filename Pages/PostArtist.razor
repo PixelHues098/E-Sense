@@ -1,0 +1,33 @@
+@page "/post-artist"
+@using System.Net.Http
+@using System.Net.Http.Json
+@using System.Threading.Tasks
+@inject HttpClient Http
+
+<MudPaper Class="pa-16 ma-2" Elevation="0">
+    <MudTextField @bind-Value="TitleInputStr" Label="Standard" Variant="Variant.Text"></MudTextField>
+    <MudTextField @bind-Value="ArtistInputStr" Label="Standard" Variant="Variant.Text"></MudTextField>
+    <MudTextField @bind-Value="PriceInputStr" Label="Standard" Variant="Variant.Text"></MudTextField>
+
+    <MudButton Variant="Variant.Filled" Size="Size.Large" Color="Color.Tertiary" OnClick="@(()=>onSubmitArtistClick())">Submit</MudButton>
+</MudPaper>
+
+@code {
+
+    public string TitleInputStr { get; set; }
+    public string ArtistInputStr { get; set; }
+    public string PriceInputStr { get; set; }
+
+    public async void onSubmitArtistClick()
+    {
+        var users1 = new RegisterUser { Title = TitleInputStr, Artist = ArtistInputStr, Price = PriceInputStr };
+        await Http.PostAsJsonAsync("http://localhost:8080/albums", users1);
+    }
+
+    public class RegisterUser
+    {
+        public string Title { get; set; }
+        public string Artist { get; set; }
+        public string Price { get; set; }
+    }
+}
