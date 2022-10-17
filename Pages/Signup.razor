@@ -1,48 +1,64 @@
 @page "/signup"
+@using System.Net.Http
+@using System.Net.Http.Json
+@using System.Threading.Tasks
+@inject HttpClient Http
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@using System.Text.RegularExpressions
+@using System.ComponentModel.DataAnnotations
 
-<MudContainer MaxWidth="MaxWidth.Small">
-    <MudPaper Class="rounded-lg">
+<MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
+    <MudContainer MaxWidth="MaxWidth.Small">
+        <MudPaper Class="rounded-lg">
 
-        <MudContainer Class="pt-10 pb-6 px-10">
-            <MudText Typo="Typo.h4">Sign Up</MudText>
-            <MudText Align="Align.Left" Class="grey-text">
-                Please fill in this form to create an account
-            </MudText>
-        </MudContainer>
+            <MudContainer Class="pt-10 pb-6 px-10">
+                <MudText Typo="Typo.h4">Sign Up</MudText>
+                <MudText Align="Align.Left" Class="grey-text">
+                    Please fill in this form to create an account
+                </MudText>
+            </MudContainer>
 
-        <MudDivider />
+            <MudDivider />
 
-        <MudContainer Class="pt-6 pb-10 px-10 d-flex flex-column gap-4">
+            <MudContainer Class="pt-6 pb-10 px-10 d-flex flex-column gap-4">
 
-            <div class="d-flex justify-space-between flex-grow-1 gap-4">
-                <MudTextField @bind-Value="FirstName" Label="First Name" Variant="Variant.Outlined"
-                    Class="flex-auto flex-grow-1" />
-                <MudTextField @bind-Value="LastName" Label="Last Name" Variant="Variant.Outlined"
-                    Class="flex-auto flex-grow-1" />
-            </div>
+                <div class="d-flex justify-space-between flex-grow-1 gap-4">
+                    <MudTextField @bind-Value="FirstName" Label="First Name" Variant="Variant.Outlined"
+                        Class="flex-auto flex-grow-1" Required="true" RequiredError="First Name is required!" />
+                    <MudTextField @bind-Value="LastName" Label="Last Name" Variant="Variant.Outlined"
+                        Class="flex-auto flex-grow-1" Required="true" RequiredError="Last Name is required!" />
+                </div>
 
-            <MudTextField @bind-Value="Email" Label="Email" Variant="Variant.Outlined" />
-            <MudTextField @bind-Value="Password" Label="Password" Variant="Variant.Outlined" InputType="@PasswordInput"
-                Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ShowHidePassClick"
-                AdornmentAriaLabel="Show Password" />
-            <MudTextField @bind-Value="CPassword" Label="Confirm Password" Variant="Variant.Outlined" InputType="@PasswordInput"
-                Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ShowHidePassClick"
-                AdornmentAriaLabel="Show Password" />
+                <MudTextField @bind-Value="Email" Label="Email" Variant="Variant.Outlined" Required="true"
+                    RequiredError="An Email is required!"
+                    Validation="@(new EmailAddressAttribute() {ErrorMessage = "The email address is invalid "})" />
+                <MudTextField @bind-Value="Password" HelperText="Choose a strong password" @ref="pwField1"
+                    Label="Password" Variant="Variant.Outlined" InputType="@PasswordInput"
+                    Validation="@(new Func<string, IEnumerable<string>>(PasswordStrength))" Required="true"
+                    RequiredError="Password is required!" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon"
+                    OnAdornmentClick="ShowHidePassClick" AdornmentAriaLabel="Show Password" />
+                <MudTextField @bind-Value="CPassword" HelperText="Repeat the password" Label="Confirm Password"
+                    Required="true" Variant="Variant.Outlined" InputType="@PasswordInput" Adornment="Adornment.End"
+                    AdornmentIcon="@PasswordInputIcon" Validation="@(new Func<string, string>(PasswordMatch))"
+                    OnAdornmentClick="ShowHidePassClick" AdornmentAriaLabel="Show Password" />
+                <MudCheckBox @bind-Checked="@Basic_CheckBox1" T="bool" Required="true"
+                    RequiredError="Please accept the Terms of Use & Privacy Policy to continue"
+                    Label="I accept the Terms of Use & Privacy Policy" />
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)" Size="Size.Large">Sign
+                    Up</MudButton>
 
-            <MudCheckBox @bind-Checked="@Basic_CheckBox1" Label="I accept the Terms of Use & Privacy Policy" />
-            <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large">Sign Up</MudButton>
+            </MudContainer>
 
-        </MudContainer>
-
-    </MudPaper>
-</MudContainer>
-
+        </MudPaper>
+    </MudContainer>
+</MudForm>
 @code {
-    public string FirstName { get; set; } = string.Empty;
-    public string LastName { get; set; } = string.Empty;
-    public string Email { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
-    public string CPassword { get; set; } = string.Empty;
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string Email { get; set; }
+    public string Password { get; set; }
+    public string CPassword { get; set; }
     public bool Basic_CheckBox1 { get; set; } = false;
 
 
@@ -65,6 +81,50 @@
             PasswordInputIcon = Icons.Material.Filled.Visibility;
             PasswordInput = InputType.Text;
         }
+    }
+
+    public async void onSubmitUserClick()
+    {
+        var signup = new SignUpUser { FName = FirstName, LName = LastName, Eml = Email, Pass = Password, CPass = CPassword };
+        await Http.PostAsJsonAsync("http://localhost:8080/albums", signup);
+    }
+
+    public class SignUpUser
+    {
+        public string FName { get; set; }
+        public string LName { get; set; }
+        public string Eml { get; set; }
+        public string Pass { get; set; }
+        public string CPass { get; set; }
+    }
+
+    bool success;
+    string[] errors = { };
+    MudTextField<string> pwField1;
+    MudForm form;
+
+    private IEnumerable<string> PasswordStrength(string pw)
+    {
+        if (string.IsNullOrWhiteSpace(pw))
+        {
+            yield return "Password is required!";
+            yield break;
+        }
+        if (pw.Length < 8)
+            yield return "Password must be at least of length 8";
+        if (!Regex.IsMatch(pw, @"[A-Z]"))
+            yield return "Password must contain at least one capital letter";
+        if (!Regex.IsMatch(pw, @"[a-z]"))
+            yield return "Password must contain at least one lowercase letter";
+        if (!Regex.IsMatch(pw, @"[0-9]"))
+            yield return "Password must contain at least one digit";
+    }
+
+    private string PasswordMatch(string arg)
+    {
+        if (pwField1.Value != arg)
+            return "Passwords don't match";
+        return null;
     }
 }
 
