@@ -2,11 +2,9 @@
 @using System.Net.Http
 @using System.Net.Http.Json
 @using System.Threading.Tasks
-@inject HttpClient Http
-@inject IJSRuntime JSRuntime
-@inject NavigationManager NavigationManager
-@using System.Text.RegularExpressions
+@using BlazorApp.Models
 @using System.ComponentModel.DataAnnotations
+@inject HttpClient Http
 
 <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
     <MudContainer MaxWidth="MaxWidth.Small">
@@ -30,102 +28,84 @@
                         Class="flex-auto flex-grow-1" Required="true" RequiredError="Last Name is required!" />
                 </div>
 
+                <MudTextField @bind-Value="Username" Label="Username" Variant="Variant.Outlined"
+                    Required="true" RequiredError="Username is required!" />
                 <MudTextField @bind-Value="Email" Label="Email" Variant="Variant.Outlined" Required="true"
                     RequiredError="An Email is required!"
                     Validation="@(new EmailAddressAttribute() {ErrorMessage = "The email address is invalid "})" />
-                <MudTextField @bind-Value="Password" HelperText="Choose a strong password" @ref="pwField1"
-                    Label="Password" Variant="Variant.Outlined" InputType="@PasswordInput"
-                    Validation="@(new Func<string, IEnumerable<string>>(PasswordStrength))" Required="true"
+                <MudTextField @bind-Value="Password" HelperText="Choose a strong password" Label="Password"
+                    Variant="Variant.Outlined" InputType="@PasswordInput"
+                    Validation="@(new Func<string, IEnumerable<string>>(FormHelper.CheckPasswordStrength))" Required="true"
                     RequiredError="Password is required!" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon"
                     OnAdornmentClick="ShowHidePassClick" AdornmentAriaLabel="Show Password" />
-                <MudTextField @bind-Value="CPassword" HelperText="Repeat the password" Label="Confirm Password"
+                <MudTextField @bind-Value="ConfirmPassword" HelperText="Repeat the password" Label="Confirm Password"
                     Required="true" Variant="Variant.Outlined" InputType="@PasswordInput" Adornment="Adornment.End"
                     AdornmentIcon="@PasswordInputIcon" Validation="@(new Func<string, string>(PasswordMatch))"
                     OnAdornmentClick="ShowHidePassClick" AdornmentAriaLabel="Show Password" />
-                <MudCheckBox @bind-Checked="@Basic_CheckBox1" T="bool" Required="true"
+                <MudCheckBox @bind-Checked="@DidAcceptTermsPolicy" T="bool" Required="true"
                     RequiredError="Please accept the Terms of Use & Privacy Policy to continue"
                     Label="I accept the Terms of Use & Privacy Policy" />
-                <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)" Size="Size.Large">Sign
-                    Up</MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)" Size="Size.Large"
+                    OnClick="@OnRegisterClick">Sign Up</MudButton>
 
             </MudContainer>
 
         </MudPaper>
     </MudContainer>
 </MudForm>
+
 @code {
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string Email { get; set; }
-    public string Password { get; set; }
-    public string CPassword { get; set; }
-    public bool Basic_CheckBox1 { get; set; } = false;
+    string FirstName { get; set; } = string.Empty;
+    string LastName { get; set; } = string.Empty;
+    string Username { get; set; } = string.Empty;
+    string Email { get; set; } = string.Empty;
+    string Password { get; set; } = string.Empty;
+    string ConfirmPassword { get; set; } = string.Empty;
+    bool DidAcceptTermsPolicy { get; set; } = false;
 
-
-
-    bool isShow;
-    InputType PasswordInput = InputType.Password;
+    bool isPasswordShown;
+    bool success;
     string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+    string[] errors = { };
 
+    InputType PasswordInput = InputType.Password;
+    private MudForm? form;
+
+    // show or hides password when eye icon (adornment) is clicked
     void ShowHidePassClick()
     {
-        @if (isShow)
+        if (isPasswordShown)
         {
-            isShow = false;
+            isPasswordShown = false;
             PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
             PasswordInput = InputType.Password;
         }
         else
         {
-            isShow = true;
+            isPasswordShown = true;
             PasswordInputIcon = Icons.Material.Filled.Visibility;
             PasswordInput = InputType.Text;
         }
     }
 
-    public async void onSubmitUserClick()
+    private string PasswordMatch(string confirmPassword)
     {
-        var signup = new SignUpUser { FName = FirstName, LName = LastName, Eml = Email, Pass = Password, CPass = CPassword };
-        await Http.PostAsJsonAsync("http://localhost:8080/albums", signup);
-    }
-
-    public class SignUpUser
-    {
-        public string FName { get; set; }
-        public string LName { get; set; }
-        public string Eml { get; set; }
-        public string Pass { get; set; }
-        public string CPass { get; set; }
-    }
-
-    bool success;
-    string[] errors = { };
-    MudTextField<string> pwField1;
-    MudForm form;
-
-    private IEnumerable<string> PasswordStrength(string pw)
-    {
-        if (string.IsNullOrWhiteSpace(pw))
-        {
-            yield return "Password is required!";
-            yield break;
-        }
-        if (pw.Length < 8)
-            yield return "Password must be at least of length 8";
-        if (!Regex.IsMatch(pw, @"[A-Z]"))
-            yield return "Password must contain at least one capital letter";
-        if (!Regex.IsMatch(pw, @"[a-z]"))
-            yield return "Password must contain at least one lowercase letter";
-        if (!Regex.IsMatch(pw, @"[0-9]"))
-            yield return "Password must contain at least one digit";
-    }
-
-    private string PasswordMatch(string arg)
-    {
-        if (pwField1.Value != arg)
+        if (!FormHelper.IsPasswordMatch(Password, confirmPassword))
             return "Passwords don't match";
-        return null;
+        return null!;
+    }
+
+    async void OnRegisterClick()
+    {
+        var userToRegister = new User
+        {
+            FirstName = FirstName,
+            LastName = LastName,
+            Username = Username,
+            Email = Email,
+            Password = Password
+        };
+
+        await Http.PostAsJsonAsync("http://localhost:8080/auth/register-user", userToRegister);
     }
 }
-
-@* Codes *@

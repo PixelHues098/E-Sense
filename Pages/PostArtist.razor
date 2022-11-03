@@ -5,18 +5,18 @@
 @inject HttpClient Http
 
 <MudPaper Class="pa-16 ma-2" Elevation="0">
-    <MudTextField @bind-Value="TitleInputStr" Label="Standard" Variant="Variant.Text"></MudTextField>
-    <MudTextField @bind-Value="ArtistInputStr" Label="Standard" Variant="Variant.Text"></MudTextField>
-    <MudTextField @bind-Value="PriceInputStr" Label="Standard" Variant="Variant.Text"></MudTextField>
+    <MudTextField @bind-Value="TitleInputStr" Label="First Data" Variant="Variant.Text"></MudTextField>
+    <MudTextField @bind-Value="ArtistInputStr" Label="Second Data" Variant="Variant.Text"></MudTextField>
+    <MudTextField @bind-Value="PriceInputStr" Label="Third Data" Variant="Variant.Text"></MudTextField>
 
     <MudButton Variant="Variant.Filled" Size="Size.Large" Color="Color.Tertiary" OnClick="@(()=>onSubmitArtistClick())">Submit</MudButton>
 </MudPaper>
 
 @code {
 
-    public string TitleInputStr { get; set; }
-    public string ArtistInputStr { get; set; }
-    public string PriceInputStr { get; set; }
+    public string TitleInputStr { get; set; } = string.Empty;
+    public string ArtistInputStr { get; set; } = string.Empty;
+    public string PriceInputStr { get; set; } = string.Empty;
 
     public async void onSubmitArtistClick()
     {
@@ -26,8 +26,8 @@
 
     public class RegisterUser
     {
-        public string Title { get; set; }
-        public string Artist { get; set; }
-        public string Price { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public string Artist { get; set; } = string.Empty;
+        public string Price { get; set; } = string.Empty;
     }
 }
