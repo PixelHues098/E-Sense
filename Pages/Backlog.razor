@@ -1,1 +1,95 @@
 @page "/backlog"
+@inject ISnackbar Snackbar
+@using MyApplication.Models
+@using RandomDataGenerator.Randomizers
+@using RandomDataGenerator.FieldOptions
+@using static MyApplication.Dummy
+
+<MudText Typo="Typo.h5" Class="mb-4 ml-6 mt-6">Backlog</MudText>
+<MudDivider />
+<div>
+    <MudDropContainer T="Issues" Items="_issues" ItemsSelector="@((item,dropzone) => item.Selector == dropzone)"
+        ItemDropped="ItemUpdated">
+        <ChildContent>
+            @for (int i = 1; i < 7; i++)
+            {
+                var dropzone = i.ToString();
+                <MudPaper Class="my-6 flex-grow-1" Outlined="true">
+                    <MudList Clickable="true" Class="d-flex flex-column mud-height-full">
+                        @if (String.Equals(dropzone, "6"))
+                        {
+                            <MudListSubheader>Backlog</MudListSubheader>
+                        }
+                        else
+                        {
+                            <MudListSubheader>Sprint @dropzone</MudListSubheader>
+                        }
+                        <MudDivider />
+                        <MudDropZone T="Issues" Identifier="@dropzone" Class="flex-grow-1" AllowReorder="true" />
+                    </MudList>
+                </MudPaper>
+            }
+        </ChildContent>
+        <ItemRenderer>
+            <MudListItem Class="py-0">
+                <div Class="d-flex align-center gap-4" Style="font-size: 14px;">
+                    <MudIcon Icon=@context.Icon Class=@("flex-none d-flex " + context.IssueIconColor) />
+
+                    <MudElement HtmlTag="div" Class="flex-none d-flex overflow-hidden"
+                        Style="width: 250px; white-space: nowrap;">
+                        @context.Name
+                    </MudElement>
+                    <MudIcon Icon=@Icons.Filled.KeyboardArrowRight Color="Color.Dark" />
+                    <MudElement HtmlTag="div" Class="flex-1 d-flex py-1 overflow-hidden" Width="60%"
+                        Style="white-space: nowrap;">
+                        @context.Definition
+                    </MudElement>
+                    <MudChip Text="blue" Variant="Variant.Filled" Class=@context.RndColor Size="Size.Small">
+                        @context.EpicTitle</MudChip>
+                    <MudAvatar Class=@context.RndColor2 Variant="Variant.Filled" Size="Size.Small">@context.Asignee
+                    </MudAvatar>
+                    @switch (context.Priority)
+                    {
+                        case 1:
+                            <MudIcon Icon="@Icons.Filled.KeyboardArrowDown"
+                        Class="teal grey-text lighten-3 text-lighten-5 rounded-lg" />
+                            break;
+                        case 2:
+                            <MudIcon Icon="@Icons.Filled.KeyboardDoubleArrowDown"
+                        Class="blue grey-text lighten-3 text-lighten-5 rounded-lg" />
+                            break;
+                        case 3:
+                            <MudIcon Icon="@Icons.Filled.KeyboardArrowUp"
+                        Class="orange grey-text lighten-3 text-lighten-5 rounded-lg" />
+                            break;
+                        default:
+                            <MudIcon Icon="@Icons.Filled.KeyboardDoubleArrowUp"
+                        Class="red grey-text lighten-3 text-lighten-5 rounded-lg" />
+                            break;
+                    }
+                </div>
+            </MudListItem>
+        </ItemRenderer>
+    </MudDropContainer>
+</div>
+
+@code {
+
+    private void ItemUpdated(MudItemDropInfo<Issues> dropItem)
+    {
+        if (dropItem.Item.Selector != dropItem.DropzoneIdentifier)
+        {
+            Snackbar.Add(dropItem.Item.Id + " has been moved to Sprint " + dropItem.DropzoneIdentifier, Severity.Success);
+            dropItem.Item.Selector = dropItem.DropzoneIdentifier;
+        }
+    }
+
+    private List<Issues> _issues = new();
+
+    protected override void OnInitialized()
+    {
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomLeft;
+        for (var i = 0; i < 30; i++)
+            _issues.Add(new Issues());
+    }
+}

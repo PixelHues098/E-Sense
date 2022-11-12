@@ -1,1 +1,107 @@
-@page "/activesprints"
+@page "/"
+@page "/active-sprint"
+@using MyApplication.Models
+@inject ISnackbar Snackbar
+
+<MudText Typo="Typo.h5" Class="mb-4 ml-6 mt-6">Active Sprint</MudText>
+<MudDivider />
+
+<MudDropContainer T="Issues" Items="@_issues" ItemsSelector="@((item,dropzone) => item.Selector == dropzone)"
+    ItemDropped="ItemUpdated" Class="d-flex flex-nowrap gap-4 overflow-auto pb-6">
+    <ChildContent>
+        @foreach (var item in _sections)
+        {
+            <MudDropZone T="Issues" Identifier=@item.Name
+                Class=@("rounded-lg border mud-border-lines-default pa-6 mt-6 flex-none ")
+                ItemDraggingClass="pa-1 rounded-lg red lighten-5" CanDropClass="mud-alert-text-success"
+                ApplyDropClassesOnDragStarted="false" Style="width: 300px;">
+                <MudText Typo.overlineClass="mb-1">@item.Name</MudText>
+            </MudDropZone>   
+        }
+    </ChildContent>
+    <ItemRenderer>
+            <MudPaper Class="pa-3 my-6" Elevation="3" Square="true" Width="200">
+
+        @if (!_isLoading)
+        {
+                <MudText Typo="Typo.body2" Class="mb-1 overflow-hidden" Style="height: 3em;">
+                    @context.Name</MudText>
+                <MudDivider Class="my-2" />
+                <MudPaper Class="d-flex flex-row-reverse flex-grow-1 gap-1 align-center" Elevation="0">
+                    <MudAvatar Class=@context.RndColor2 Variant="Variant.Filled" Size="Size.Small">
+                        @context.Asignee
+                    </MudAvatar>
+                    <MudIcon Icon=@context.Icon Class=@("flex-none d-flex " + context.IssueIconColor) />
+                        @switch (context.Priority)
+                        {
+                            case 1:
+                                <MudIcon Icon="@Icons.Filled.KeyboardArrowDown"
+                            Class="teal grey-text lighten-3 text-lighten-5 rounded-lg" />
+                                break;
+                            case 2:
+                                <MudIcon Icon="@Icons.Filled.KeyboardDoubleArrowDown"
+                            Class="blue grey-text lighten-3 text-lighten-5 rounded-lg" />
+                                break;
+                            case 3:
+                                <MudIcon Icon="@Icons.Filled.KeyboardArrowUp"
+                            Class="orange grey-text lighten-3 text-lighten-5 rounded-lg" />
+                                break;
+                            default:
+                                <MudIcon Icon="@Icons.Filled.KeyboardDoubleArrowUp"
+                            Class="red grey-text lighten-3 text-lighten-5 rounded-lg" />
+                                break;
+                        }
+                    <div class="flex-grow-1">
+                        <MudText Typo="Typo.overline">@context.Id</MudText>
+                    </div>
+                </MudPaper>
+        }
+        else
+        {
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="5em" />
+            <MudSkeleton />
+        }
+            </MudPaper>
+
+    </ItemRenderer>
+</MudDropContainer>
+
+@code {
+    private void ItemUpdated(MudItemDropInfo<Issues> dropItem)
+    {
+        dropItem.Item.Selector = dropItem.DropzoneIdentifier;
+        Snackbar.Add(dropItem.Item.Id + " has been moved to " + dropItem.DropzoneIdentifier, Severity.Success);
+    }
+
+    private bool _isLoading = true;
+
+    public class KanBanSections
+    {
+        public string Name { get; init; } = "";
+        public string SectionColor { get; set; } = "";
+    }
+
+    private List<KanBanSections> _sections = new()
+    {
+        new KanBanSections() { Name = "To Do", SectionColor = "red lighten-5" },
+        new KanBanSections() { Name = "In Progress", SectionColor = "blue lighten-5" },
+        new KanBanSections() { Name = "Code Review", SectionColor = "purple lighten-5" },
+        new KanBanSections() { Name = "Testing", SectionColor = "teal lighten-5" },
+        new KanBanSections() { Name = "Done", SectionColor = "lime lighten-5" },
+        new KanBanSections() { Name = "Blocked", SectionColor = "green lighten-5" },
+    };
+
+    private List<Issues> _issues = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomLeft;
+        Random rnd = new Random();
+        for (var i = 0; i < 40; i++)
+        {
+            _issues.Add(new Issues() { Selector = _sections[rnd.Next(_sections.Count)].Name });
+        }
+        await Task.Delay(1200);
+        _isLoading = false;
+    }
+}

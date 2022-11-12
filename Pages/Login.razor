@@ -1,13 +1,13 @@
 @page "/login"
+@layout SignupLayout
 
 <MudContainer MaxWidth="MaxWidth.Small">
-    <MudPaper Class="rounded-lg">
+    <MudPaper Class="rounded-lg" Elevation="3">
 
         <div class="d-flex justify-center">
             <MudImage Fluid="true" Src="images/logo2.png" Width="332" Height="180" Alt="E-Sense Logo" Elevation="0"
                 Class="rounded-lg" />
         </div>
-        <MudDivider />
         <MudContainer Class="pt-9 pb-5 px-16 d-flex flex-column gap-4">
             <MudTextField @bind-Value="Email" Label="Email" Variant="Variant.Text" />
             <MudTextField @bind-Value="Password" Label="Password" Variant="Variant.Text" InputType="@PasswordInput"

@@ -1,1 +1,57 @@
 @page "/reports"
+
+<div class="d-flex flex-grow-1 justify-center mt-10">
+    <MudGrid Class="pt-10 d-flex flex-grow-1" Spacing="10" style="max-width: 70vw">
+        @foreach (var item in _reports)
+        {
+            <MudItem xs="4" Class="d-flex flex-grow-1 justify-center">
+                <MudPaper Class="d-flex align-center justify-center mud-width-full py-8 px-6 flex-column gap-6" Elevation="3" Height="350px" Width="400px">
+                    <MudText Typo="Typo.h6">@item.Name</MudText>
+                    <MudPaper Outlined="true">
+                        <MudImage Fluid="true" Src=@item.ImgSrc Class="rounded-lg"/>
+                    </MudPaper>
+                    <MudText Typo="Typo.body2">
+                        @item.Definition
+                    </MudText>
+                </MudPaper>
+            </MudItem>
+        }
+    </MudGrid>
+</div>
+
+    @code {
+    public class ReportUI
+    {
+        public string Name { get; init; } = "";
+        public string Definition { get; init; } = "";
+        public string ImgSrc { get; init; } = "images/burndown_chart.png";
+    }
+
+    private List<ReportUI> _reports = new();
+    protected override void OnInitialized()
+    {
+            _reports.Add(new ReportUI() { ImgSrc = "images/burndown_chart.png", Name = "Burndown Chart", Definition = "Track the total work remaining and project the likelihood of achieving the sprint goal. This helps your team manage its progress and respond accordingly." });
+            _reports.Add(new ReportUI() { ImgSrc = "images/burnup_chart.png", Name = "Burnup Chart", Definition = "Track the total scope independently from the total work done. This helps your team manage its progress and better understand the effect of scope change." });
+            _reports.Add(new ReportUI() { ImgSrc = "images/sprint_report.png", Name = "Sprint Report", Definition = "Understand the work completed or pushed back to the backlog in each sprint. This helps you determine if your team is overcommitting or if there is excessive scope creep." });
+            _reports.Add(new ReportUI() { ImgSrc = "images/velocity_chart.png", Name = "Velocity Chart", Definition = "Track the amount of work completed from sprint to sprint. This helps you determine your team's velocity and estimate the work your team can realistically achieve in future sprints." });
+            _reports.Add(new ReportUI() { ImgSrc = "images/cumulative_flow_diagram.png", Name = "Cumulative Flow Diagram", Definition = "Shows the statuses of issues over time. This helps you identify potential bottlenecks that need to be investigated." });
+            _reports.Add(new ReportUI() { ImgSrc = "images/version_report.png", Name = "Version Report", Definition = "Track the projected release date for a version. This helps you monitor whether the version will release on time, so you can take action if work is falling behind." });
+            _reports.Add(new ReportUI() { ImgSrc = "images/epic_report.png", Name = "Epic Report", Definition = "Understand the progress towards completing an epic over time. This helps you manage your team's progress by tracking the remaining incomplete/unestimated work." });
+            _reports.Add(new ReportUI() { ImgSrc = "images/control_chart.png", Name = "Control Chart", Definition = "Shows the cycle time for your product, version or sprint. This helps you identify whether data from the current process can be used to determine future performance." });
+            _reports.Add(new ReportUI() { ImgSrc = "images/epic_burndown.png", Name = "Epic Burndown", Definition = "Track the projected number of sprints required to complete the epic (optimized for Scrum). This helps you monitor whether the epic will release on time, so you can take action if work is falling behind." });
+            _reports.Add(new ReportUI() { ImgSrc = "images/release_burndown.png", Name = "Release Burndown", Definition = "Track the projected release date for a version (optimized for Scrum). This helps you monitor whether the version will release on time, so you can take action if work is falling behind." });
+            _reports.Add(new ReportUI() { ImgSrc = "images/cycle_time_report.png", Name = "Cycle Time Report", Definition = "Understand how much time it takes to ship issues through the deployment pipeline and how to deal with outliers." });
+            _reports.Add(new ReportUI() { ImgSrc = "images/deployment_frequency_report.png", Name = "Deployment Frequency Report", Definition = "Understand your deployment frequency to understand risk and how often you are shipping value to your customers." });
+            _reports.Add(new ReportUI() { ImgSrc = "images/average_age_report.png", Name = "Average Age Report", Definition = "Shows the average age of unresolved issues for a project or filter. This helps you see whether your backlog is being kept up to date." });
+            _reports.Add(new ReportUI() { ImgSrc = "images/create_vs_resolved_report.png", Name = "Created vs. Resolved Issues Report", Definition = "Maps created issues versus resolved issues over a period of time. This can help you understand whether your overall backlog is growing or shrinking." });
+            _reports.Add(new ReportUI() { ImgSrc = "images/pie_chart_report.png", Name = "Pie Chart Report", Definition = "Shows a pie chart of issues for a project/filter grouped by a specified field. This helps you see the breakdown of a set of issues, at a glance." });
+            _reports.Add(new ReportUI() { ImgSrc = "images/recently_created_issues_report.png", Name = "Recently Created Issues Report", Definition = "Shows the number of issues created over a period of time for a project/filter, and how many were resolved. This helps you understand if your team is keeping up with incoming work." });
+            _reports.Add(new ReportUI() { ImgSrc = "images/resolution_time_report.png", Name = "Resolution Time Report", Definition = "Shows the length of time taken to resolve a set of issues for a project/filter. This helps you identify trends and incidents that you can investigate further." });
+            _reports.Add(new ReportUI() { ImgSrc = "images/single_level_group_by_report.png", Name = "Single Level Group By Report", Definition = "Shows issues grouped by a particular field for a filter. This helps you group search results by a field and see the overall status of each group." });
+            _reports.Add(new ReportUI() { ImgSrc = "images/time_since_issue_report.png", Name = "Time Since Issues Report", Definition = "For a date field and project/filter, maps the issues against the date that the field was set. This can help you track how many issues were created, updated, etc, over a period of time." });
+            _reports.Add(new ReportUI() { ImgSrc = "images/time_tracking_report.png", Name = "Time Tracking Report", Definition = "Shows the original and current time estimates for issues in the current project. This can help you determine whether work is on track for those issues." });
+            _reports.Add(new ReportUI() { ImgSrc = "images/user_workload_report.png", Name = "User Workload Report", Definition = "Shows the time estimates for all unresolved issues assigned to a user across projects. This helps you understand the user's workload better." });
+            _reports.Add(new ReportUI() { ImgSrc = "images/version_workload_report.png", Name = "Version Workload Report", Definition = "Shows the time estimates for all unresolved issues assigned to a version, broken down by user and issues. This helps you understand the remaining work for the version." });
+            _reports.Add(new ReportUI() { ImgSrc = "images/workload_pie_chart_report.png", Name = "Workload Pie Chart Report", Definition = "A report showing the issues for a project or filter as a pie chart." });
+    }
+}

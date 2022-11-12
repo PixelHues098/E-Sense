@@ -1,0 +1,132 @@
+@page "/settings"
+<div class="d-flex flex-grow-1 justify-center my-16">
+    <MudStack Spacing="16">
+        <MudPaper Outlined="true" Width="50vw" Class="pa-16">
+            <MudGrid Class="mt-6" Justify="Justify.Center">
+
+                <MudItem xs="6">
+                    <MudStack Spacing="5">
+                        <MudText Typo="Typo.h6">User Information</MudText>
+                        <div class="d-flex justify-space-between flex-grow-1 gap-4">
+                            <MudTextField @bind-Value="FirstName" Label="First Name" Variant="Variant.Outlined"
+                                Class="flex-auto flex-grow-1" />
+                            <MudTextField @bind-Value="LastName" Label="Last Name" Variant="Variant.Outlined"
+                                Class="flex-auto flex-grow-1" />
+                        </div>
+                        <MudTextField Adornment="Adornment.Start" AdornmentIcon="@Icons.Outlined.AccountCircle"
+                            @bind-Value="Username" Label="Username" Variant="Variant.Outlined"></MudTextField>
+                        <MudTextField Adornment="Adornment.Start" AdornmentIcon="@Icons.Outlined.Email"
+                            @bind-Value="EmailValue" Label="Email" Variant="Variant.Outlined"></MudTextField>
+                        <MudButton Variant="Variant.Outlined" Color="Color.Info">Update Info</MudButton>
+                    </MudStack>
+                </MudItem>
+
+                <MudItem xs="1" />
+                <MudItem xs="4">
+                    <MudStack>
+                        <MudImage Fluid="true" Src="images/person.jpg" Alt="Happy day" Elevation="25"
+                            Class="rounded-circle" />
+                        <MudButton HtmlTag="label" Variant="Variant.Outlined" Color="Color.Tertiary "
+                            StartIcon="@Icons.Filled.CloudUpload">
+                            New Image
+                        </MudButton>
+                    </MudStack>
+                </MudItem>
+                <MudItem xs="1" />
+            </MudGrid>
+        </MudPaper>
+
+        <MudPaper Outlined="true" Width="50vw" Class="pa-16">
+                <MudItem xs="12">
+                    <MudStack Spacing="5">
+                        <MudText Typo="Typo.h6">Security</MudText>
+                    </MudStack>
+                </MudItem>
+                <MudGrid Class="mt-16" Justify="Justify.Center">
+<MudItem xs="7">
+                    <MudStack Spacing="5">
+                        <MudTextField @bind-Value="Password" Label="Password" Variant="Variant.Outlined"
+                            InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon"
+                            OnAdornmentClick="ShowHidePassClick" AdornmentAriaLabel="Show Password" />
+                        <MudTextField @bind-Value="CPassword" Label="Confirm Password" Variant="Variant.Outlined"
+                            InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon"
+                            OnAdornmentClick="ShowHidePassClick" AdornmentAriaLabel="Show Password" />
+
+                        <MudTextField @bind-Value="Password" Label="New Password" Variant="Variant.Outlined"
+                            InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon"
+                            OnAdornmentClick="ShowHidePassClick" AdornmentAriaLabel="Show Password" />
+                        <MudTextField @bind-Value="CPassword" Label="Confirm New Password" Variant="Variant.Outlined"
+                            InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon"
+                            OnAdornmentClick="ShowHidePassClick" AdornmentAriaLabel="Show Password" />
+
+                        <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Outlined.WarningAmber"
+                            Color="Color.Error">Change Password</MudButton>
+                    </MudStack>
+                </MudItem>
+                <MudItem xs="1" />
+                <MudItem xs="4">
+                    <MudStack>
+                        <MudIcon Icon="@Icons.Material.Outlined.Shield" Style="width: 100%; font-size: 4rem;" />
+                        <MudText Typo="Typo.body2" Class="mb-1 overflow-hidden" Style="height: 16em;"
+                            Align="Align.Center">
+                            @securityWarning
+                        </MudText>
+                    </MudStack>
+                </MudItem>
+                </MudGrid>
+        </MudPaper>
+
+        <MudPaper Outlined="true" Width="50vw" Class="pa-16">
+            <MudText Typo="Typo.h5" Class="mb-4 ml-6">Accessibility</MudText>
+            <MudDivider />
+            @foreach (var item in accessibilitySettingsList)
+            {
+                <div Class="d-flex align-content-center flex-wrap flex-grow-1 gap-4">
+                    <div Class="d-flex align-content-center flex-wrap flex-grow-1">
+                        @item
+                    </div>
+                    <MudSwitch @bind-Checked="@Label_Switch1" Color="Color.Info" />
+                </div>
+            <MudDivider />
+            }
+        </MudPaper>
+    </MudStack>
+</div>
+
+@code {
+    public string FirstName { get; set; } = "James";
+    public string LastName { get; set; } = "Broccoli";
+    public string Username { get; set; } = "CoolJames";
+    public string EmailValue { get; set; } = "james@email.com";
+    public string Password { get; set; } = string.Empty;
+    public string CPassword { get; set; } = string.Empty;
+    public bool Label_Switch1 { get; set; } = false;
+
+    bool isShow;
+    InputType PasswordInput = InputType.Password;
+    string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+    private string securityWarning = "";
+    string[] accessibilitySettingsList = { "Dark Mode", "Quick Load", "Remember User", "Disable animations", "Enable Acceleration", "Disable Animation", "Color Blind Mode", "Small Font", "Enable Cookies", "Enable Telemetry", "Allow Cross-Site cookies", "Auto Set Time Zone" };
+
+
+    void ShowHidePassClick()
+    {
+        @if (isShow)
+        {
+            isShow = false;
+            PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+            PasswordInput = InputType.Password;
+        }
+        else
+        {
+            isShow = true;
+            PasswordInputIcon = Icons.Material.Filled.Visibility;
+            PasswordInput = InputType.Text;
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        securityWarning = @Dummy.RndIpsumSentenceGen(100);
+    }
+}

@@ -1,7 +1,8 @@
 @page "/signup"
+@layout SignupLayout
 
 <MudContainer MaxWidth="MaxWidth.Small">
-    <MudPaper Class="rounded-lg">
+    <MudPaper Class="rounded-lg" Outlined="true">
 
         <MudContainer Class="pt-10 pb-6 px-10">
             <MudText Typo="Typo.h4">Sign Up</MudText>
@@ -25,9 +26,9 @@
             <MudTextField @bind-Value="Password" Label="Password" Variant="Variant.Outlined" InputType="@PasswordInput"
                 Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ShowHidePassClick"
                 AdornmentAriaLabel="Show Password" />
-            <MudTextField @bind-Value="CPassword" Label="Confirm Password" Variant="Variant.Outlined" InputType="@PasswordInput"
-                Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ShowHidePassClick"
-                AdornmentAriaLabel="Show Password" />
+            <MudTextField @bind-Value="CPassword" Label="Confirm Password" Variant="Variant.Outlined"
+                InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon"
+                OnAdornmentClick="ShowHidePassClick" AdornmentAriaLabel="Show Password" />
 
             <MudCheckBox @bind-Checked="@Basic_CheckBox1" Label="I accept the Terms of Use & Privacy Policy" />
             <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large">Sign Up</MudButton>
@@ -44,7 +45,6 @@
     public string Password { get; set; } = string.Empty;
     public string CPassword { get; set; } = string.Empty;
     public bool Basic_CheckBox1 { get; set; } = false;
-
 
 
     bool isShow;

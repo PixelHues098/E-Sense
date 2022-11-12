@@ -1,1 +1,75 @@
 @page "/roadmap"
+@using System.Net.Http.Json
+@using static MyApplication.Dummy
+
+<MudText Typo="Typo.h5" Class="mb-4 ml-6 mt-6">Roadmap</MudText>
+<MudDivider />
+<MudPaper Class="my-6 flex-grow-1" Outlined="true" Width="5000px">
+
+    <div class="d-flex flex-row flex-grow-1">
+
+        <MudList Clickable="false" Class="d-flex flex-column flex-grow-1 mud-height-full overflow-x-scroll"
+            Dense="true">
+            <MudListSubheader>
+                <div class="d-flex flex-grow-1 ml-16">
+                    @for (int i = 0; i < 5; i++)
+                    {
+                        @foreach (string month in new List<string>() {
+                    "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"
+                    })
+                        {
+                            <div class="px-16">
+                                @(month + " " + (2022 + i).ToString())
+                            </div>
+                        }
+                    }
+                </div>
+            </MudListSubheader>
+            <MudDivider />
+            @foreach (var item in _roadmaps)
+            {
+                <div class=@("d-flex flex-grow-1 align-center gap-4 pa-3" + (item.HasGreyBackground ? " grey lighten-3" :
+                ""))>
+                    <div style="width: 100px">
+                        <MudChip Variant="Variant.Filled" Class=@item.ChipClass Size="Size.Small">
+                            @item.Name</MudChip>
+                    </div>
+                    <div style=@("width: " + item.ProgressStart + "%;") />
+                    <MudTooltip Text=@(item.StartDate + " - " + item.EndDate) Arrow="true" Placement="Placement.Top">
+                        <MudPaper Class=@("flex-none d-flex " + item.ProgressColor) Width=@item.ProgressLength Height="20px"
+                        Elevation="0" />
+                    </MudTooltip>
+                </div>
+                <MudDivider />
+            }
+        </MudList>
+
+    </div>
+</MudPaper>
+
+@code {
+    public class RoadmapGraph
+    {
+        public string Name { get; init; } = Dummy.EpicTitleGenerator();
+        public string Definition { get; init; } = Dummy.RndIpsumSentenceGen(40);
+        public string PathColor { get; set; } = Dummy.RandomMudColorGenStr(false, 3);
+        public string ProgressColor { get; set; } = Dummy.RandomMudColorGenStr(false, 3);
+        public string ChipClass { get; set; } = Dummy.RandomMudColorGenStr(false, 3) + " white-text";
+        public string ProgressStart { get; set; } = Dummy.RndNum(0, 20).ToString();
+        public string ProgressLength { get; set; } = (Dummy.RndNum(2, 20) * 70).ToString() + "px";
+        public bool HasGreyBackground { get; set; } = false;
+        public string StartDate { get; set; } = DateTime.Now.ToString("MMMM dd, yyyy");
+        public string EndDate { get; set; } = DateTime.Now.AddDays(30).ToString("MMM dd, yyyy");
+    }
+
+    private List<RoadmapGraph> _roadmaps = new();
+
+
+    protected override void OnInitialized()
+    {
+        for (var i = 0; i < 60; i++)
+        {
+            _roadmaps.Add(new RoadmapGraph() { HasGreyBackground = i % 2 == 1 });
+        }
+    }
+}

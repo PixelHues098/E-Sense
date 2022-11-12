@@ -1,29 +1,38 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider />
+<MudThemeProvider @bind-IsDarkMode="@_isDarkMode" Theme="_theme" />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
+<MudScrollToTop>
+    <MudFab Color="Color.Tertiary" Icon="@Icons.Filled.ArrowCircleUp" />
+</MudScrollToTop>
+
 <MudLayout>
-    <MudAppBar Elevation="0">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start"
+    <MudAppBar Elevation="0" Dense="true" style=" background: rgb(80,0,214);
+background: linear-gradient(90deg, rgba(80,0,214,1) 0%, rgba(177,65,170,1) 66%); opacity: 0.9;">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Edge="Edge.Start" Class="grey-text text-lighten-3"
             OnClick="@((e) => DrawerToggle())" />
-        <MudImage Src="images/E-Sense logo 3 white.png" Alt="Logo3" Height="68" Elevation="0" Class="rounded-lg ml-3" />
         <MudSpacer />
-        <MudIconButton Icon="@Icons.Custom.Brands.MudBlazor" Color="Color.Inherit" Link="https://mudblazor.com/"
-            Target="_blank" />
-        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit"
-            Link="https://github.com/PixelHues098/E-Sense" Target="_blank" />
+        <MudMenu AnchorOrigin=@Origin.BottomCenter TransformOrigin=@Origin.TopRight>
+            <ActivatorContent>
+                <MudIconButton Icon="@Icons.Filled.AccountCircle" aria-label="account"
+                    Class="grey-text text-lighten-3" />
+            </ActivatorContent>
+            <ChildContent>
+                <MudMenuItem Href="/settings">Settings</MudMenuItem>
+                <MudMenuItem>Profile</MudMenuItem>
+                <MudMenuItem Href="/login">Sign Out</MudMenuItem>
+            </ChildContent>
+        </MudMenu>
+        <MudIconButton OnClick="@((e) => ToggleDarkMode())" Icon="@Icons.Filled.DarkMode" aria-label="dark-mode"
+            Class="grey-text text-lighten-3" />
     </MudAppBar>
     <MudDrawer @bind-Open="_drawerOpen" Elevation="1">
-        <MudDrawerHeader>
-            <MudText Typo="Typo.h6">Project Name</MudText>
-            <MudDivider />
-        </MudDrawerHeader>
         <NavMenu />
     </MudDrawer>
     <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.Large" Class="my-16 pt-16">
+        <MudContainer Fixed="true">
             @Body
         </MudContainer>
     </MudMainContent>
@@ -31,6 +40,13 @@
 
 @code {
     bool _drawerOpen = true;
+    private MudTheme _theme = new();
+    public bool _isDarkMode;
+
+    void ToggleDarkMode()
+    {
+        _isDarkMode = !_isDarkMode;
+    }
 
     void DrawerToggle()
     {
