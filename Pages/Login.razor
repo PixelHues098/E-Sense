@@ -1,5 +1,11 @@
 @page "/login"
 @layout SignupLayout
+@using System.Net.Http
+@using System.Net.Http.Json
+@using System.Threading.Tasks
+@using BlazorApp.Models
+@using System.ComponentModel.DataAnnotations
+@inject HttpClient Http
 
 <MudContainer MaxWidth="MaxWidth.Small">
     <MudPaper Class="rounded-lg" Elevation="3">
@@ -9,19 +15,23 @@
                 Class="rounded-lg" />
         </div>
         <MudContainer Class="pt-9 pb-5 px-16 d-flex flex-column gap-4">
-            <MudTextField @bind-Value="Email" Label="Email" Variant="Variant.Text" />
-            <MudTextField @bind-Value="Password" Label="Password" Variant="Variant.Text" InputType="@PasswordInput"
-                Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ShowHidePassClick"
-                AdornmentAriaLabel="Show Password" />
+            <MudTextField @bind-Value="Email" Label="Email" Variant="Variant.Outlined" Required="true"
+                    RequiredError="An Email is required!"
+                    Validation="@(new EmailAddressAttribute() {ErrorMessage = "The email address is required to continue"})"/>
+            <MudTextField @bind-Value="Password" @ref="pwField1"
+                    Label="Password" Variant="Variant.Outlined" InputType="@PasswordInput"
+                    Validation="@(new Func<string, IEnumerable<string>>(PasswordStrength))" Required="true"
+                    RequiredError="Password is required!" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon"
+                    OnAdornmentClick="ShowHidePassClick" AdornmentAriaLabel="Show Password" />
 
             <div Class="mb-5">
-                <MudButton Href="signup" Variant="Variant.Text" Color="Color.Primary">
+                <MudButton Variant="Variant.Text" Color="Color.Primary">
                     Forgot password?
                 </MudButton>
             </div>
 
-            <MudButton Class="mr-16 ml-16 mb-6 rounded-pill" Variant="Variant.Filled" Color="Color.Primary"
-                Size="Size.Large">Login</MudButton>
+            <MudButton Href="active-sprint" Class="mr-16 ml-16 mb-6 rounded-pill" Variant="Variant.Filled" Color="Color.Primary"
+                Size="Size.Large" OnClick="@OnLoginClick">Login</MudButton>
             <MudText Align="Align.Center">
                 Not a member?
                 <MudButton Class="mr-1" Href="signup" Variant="Variant.Text" Color="Color.Primary"> Sign up </MudButton>
@@ -55,6 +65,31 @@
             PasswordInputIcon = Icons.Material.Filled.Visibility;
             PasswordInput = InputType.Text;
         }
+    }
+
+    private bool success;
+    string[] errors = { };
+    private MudTextField<string>? pwField1;
+    private MudForm? form;
+
+    private IEnumerable<string> PasswordStrength(string pw)
+    {
+        if (string.IsNullOrWhiteSpace(pw))
+        {
+            yield return "Password is required!";
+            yield break;
+        }
+    }
+
+    async void OnLoginClick()
+    {
+        var userToLogin = new User
+        {
+            Email = Email,
+            Password = Password
+        };
+
+        await Http.PostAsJsonAsync("http://localhost:8080/auth/login-user", userToLogin);
     }
 }
 
