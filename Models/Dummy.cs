@@ -76,5 +76,38 @@ namespace MyApplication
 
             return ipsumSentence[0].ToString().ToUpper() + ipsumSentence.Substring(1);
         }
+
+        /// <summary>
+        /// Generate a random title to represent a possible an issue with an epic type
+        /// </summary>
+        public static string GenerateEpicTitle()
+        {
+            Random rnd = new Random();
+            switch (rnd.Next(9))
+            {
+                case 0:
+                    return "Releases";
+                case 1:
+                    return "Login";
+                case 2:
+                    return "Backlog";
+                case 3:
+                    return "Signup";
+                case 4:
+                    return "Diagrams";
+                case 5:
+                    return "Others";
+                case 6:
+                    return "Settings";
+                case 7:
+                    return "History";
+                case 8:
+                    return "Permissions";
+                case 9:
+                    return "User";
+                default:
+                    return "Security";
+            }
+        }
     }
 }
