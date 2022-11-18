@@ -109,5 +109,47 @@ namespace MyApplication
                     return "Security";
             }
         }
+
+        /// <summary>
+        /// Picks a random color from a set of preselected colors
+        /// </summary>
+        /// <param name="isText">Set to true if you want to set the color to the text and not to background ,false otherwise.</param>
+        /// <param name="intensity">How light a color should be from 1-5 (5 being the lightest). int outside 1-5 range won't change the intensity.</param>
+        /// <returns>A string to change the color of a component. To be assigned to a class property</returns>
+        public static string GeneratePastelColor(bool isText, int intensity)
+        {
+            Random rnd = new Random();
+            string color = "";
+
+            switch (rnd.Next(9))
+            {
+                case 1:
+                    color = "red";
+                    break;
+                case 2:
+                    color = "blue";
+                    break;
+                case 3:
+                    color = "purple";
+                    break;
+                case 4:
+                    color = "indigo";
+                    break;
+                case 5:
+                    color = "cyan";
+                    break;
+                case 6:
+                    color = "teal";
+                    break;
+                case 7:
+                    color = "blue-grey";
+                    break;
+                default:
+                    color = "green";
+                    break;
+            }
+
+            return isText ? (color + "-text text-lighten-" + intensity.ToString()) : (color + " lighten-" + intensity.ToString());
+        }
     }
 }
