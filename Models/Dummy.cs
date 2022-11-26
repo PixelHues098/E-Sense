@@ -5,7 +5,7 @@ namespace MyApplication
         /// <summary>
         /// Returns a capital letter from the alphabet
         /// </summary>
-        public static char RndEnChar()
+        public static char RndCapitalChar()
         {
             Random rnd = new Random();
 
@@ -18,7 +18,7 @@ namespace MyApplication
         /// </summary>
         /// <param name="wordCount">Number of words to generate</param>
         /// <returns>A string of randomly organized lorem impsum words with a capital first letter</returns>
-        public static string GenerateLoremSentence(int wordCount)
+        public static string FillerContent(int wordCount)
         {
             Random rnd = new Random();
 
@@ -116,7 +116,7 @@ namespace MyApplication
         /// <param name="isText">Set to true if you want to set the color to the text and not to background ,false otherwise.</param>
         /// <param name="intensity">How light a color should be from 1-5 (5 being the lightest). int outside 1-5 range won't change the intensity.</param>
         /// <returns>A string to change the color of a component. To be assigned to a class property</returns>
-        public static string GeneratePastelColor(bool isText, int intensity)
+        public static string RndPastelColor(bool isText, int intensity)
         {
             Random rnd = new Random();
             string color = "";
@@ -169,7 +169,7 @@ namespace MyApplication
         /// Generates a random icon to be used for types of issues
         /// </summary>
         /// <returns>Return the string for the issue type icons from mudblazor</returns>
-        public static string RndIssueIconGen()
+        public static string RndIssueIcon()
         {
             Random rnd = new Random();
             switch (rnd.Next(4))
@@ -189,7 +189,7 @@ namespace MyApplication
         /// Returns a random color from the mud blazor default theme
         /// </summary>
         /// <returns>Returns an int from the mudblazor color enum to represent color</returns>
-        public static MudBlazor.Color RandomMudColorGen()
+        public static MudBlazor.Color RndMudColor()
         {
             Random rnd = new Random();
             switch (rnd.Next(9))
