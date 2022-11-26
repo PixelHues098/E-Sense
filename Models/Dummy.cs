@@ -164,5 +164,25 @@ namespace MyApplication
 
             return rnd.Next(min, max);
         }
+
+        /// <summary>
+        /// Generates a random icon to be used for types of issues
+        /// </summary>
+        /// <returns>Return the string for the issue type icons from mudblazor</returns>
+        public static string RndIssueIconGen()
+        {
+            Random rnd = new Random();
+            switch (rnd.Next(4))
+            {
+                case 0:
+                    return MudBlazor.Icons.Outlined.BugReport;
+                case 1:
+                    return MudBlazor.Icons.Outlined.BubbleChart;
+                case 2:
+                    return MudBlazor.Icons.Outlined.Settings;
+                default:
+                    return MudBlazor.Icons.Outlined.Bookmarks;
+            }
+        }
     }
 }
