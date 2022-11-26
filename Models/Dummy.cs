@@ -184,5 +184,33 @@ namespace MyApplication
                     return MudBlazor.Icons.Outlined.Bookmarks;
             }
         }
+
+        /// <summary>
+        /// Returns a random color from the mud blazor default theme
+        /// </summary>
+        /// <returns>Returns an int from the mudblazor color enum to represent color</returns>
+        public static MudBlazor.Color RandomMudColorGen()
+        {
+            Random rnd = new Random();
+            switch (rnd.Next(9))
+            {
+                case 1:
+                    return MudBlazor.Color.Primary;
+                case 2:
+                    return MudBlazor.Color.Secondary;
+                case 3:
+                    return MudBlazor.Color.Tertiary;
+                case 4:
+                    return MudBlazor.Color.Info;
+                case 5:
+                    return MudBlazor.Color.Success;
+                case 6:
+                    return MudBlazor.Color.Warning;
+                case 7:
+                    return MudBlazor.Color.Error;
+                default:
+                    return MudBlazor.Color.Dark;
+            }
+        }
     }
 }
