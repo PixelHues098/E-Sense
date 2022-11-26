@@ -151,5 +151,18 @@ namespace MyApplication
 
             return isText ? (color + "-text text-lighten-" + intensity.ToString()) : (color + " lighten-" + intensity.ToString());
         }
+
+        /// <summary>
+        /// Generates a random number from the range provided in the arguments
+        /// </summary>
+        /// <param name="min">Minimum possible value to be returned</param>
+        /// <param name="max">Max possible value to be returned</param>
+        /// <returns>Returns an int that contains a random number from the range provided from the arguments</returns>
+        public static int RndNum(int min, int max)
+        {
+            Random rnd = new Random();
+
+            return rnd.Next(min, max);
+        }
     }
 }
