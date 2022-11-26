@@ -1,0 +1,19 @@
+<MudPaper Class="my-6 flex-grow-1" Outlined="true">
+    <MudList Clickable="true" Class="d-flex flex-column">
+        @* TODO: Change if else statement to put all uncategorized issues/task to backlog for sprints *@
+        @if (String.Equals(Dropzone, "6"))
+        {
+            <MudListSubheader>Backlog</MudListSubheader>
+        }
+        else
+        {
+            <MudListSubheader>Sprint @Dropzone</MudListSubheader>
+        }
+        <MudDivider />
+        <MudDropZone T="Issue" Identifier="@Dropzone" Class="flex-grow-1" AllowReorder="true" />
+    </MudList>
+</MudPaper>
+
+@code{
+    [Parameter] public string Dropzone { get; set; } = String.Empty;
+}

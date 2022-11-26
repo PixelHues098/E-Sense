@@ -1,0 +1,30 @@
+<MudIcon Icon=@IconType Class=@IconClass />
+
+@code{
+    [Parameter] public int Priority { get; set; } = 0;
+    public string IconClass = "grey-text lighten-3 text-lighten-5 rounded-lg";
+    public string IconType = Icons.Filled.DragHandle;
+
+    protected override void OnParametersSet()
+    {
+        @switch (Priority)
+{
+    case 1:
+        IconType = Icons.Filled.KeyboardArrowDown;
+        IconClass = "teal " + IconClass;
+        break;
+    case 2:
+        IconType = Icons.Filled.KeyboardDoubleArrowDown;
+        IconClass = "blue " + IconClass;
+        break;
+    case 3:
+        IconType = Icons.Filled.KeyboardArrowUp;
+        IconClass = "orange " + IconClass;
+        break;
+    default:
+        IconType = Icons.Filled.KeyboardDoubleArrowUp;
+        IconClass = "red " + IconClass;
+        break;
+}
+    }
+}
