@@ -17,8 +17,8 @@ namespace MyApplication.Models
         public string IssueIconColor { get; set; } = Dummy.RndPastelColor(true, 3);
 
         public string EpicTitle { get; set; } = Dummy.GenerateEpicTitle();
-        public string RndColor { get; set; } = Dummy.RndPastelColor(false, 3) + " white-text";
-        public string RndColor2 { get; set; } = Dummy.RndPastelColor(false, 3);
+        public string EpicColor { get; set; } = Dummy.RndPastelColor(false, 3) + " white-text";
+        public string AsigneeColor { get; set; } = Dummy.RndPastelColor(false, 3);
 
     }
 }
