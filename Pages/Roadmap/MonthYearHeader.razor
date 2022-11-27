@@ -1,0 +1,15 @@
+<MudListSubheader>
+    <div class="d-flex flex-grow-1">
+        @for (int i = 0; i < 5; i++)
+        {
+            @foreach (string month in new List<string>() {
+        "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"
+        })
+            {
+                <div class="px-16">
+                    @(month + " " + (2022 + i).ToString())
+                </div>
+            }
+        }
+    </div>
+</MudListSubheader>
