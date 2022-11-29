@@ -3,39 +3,37 @@
 @using static MyApplication.Dummy
 
 <FilterTools />
-<MudPaper Outlined="true" Class="pa-4">
-    <div Class="my-6 flex-grow-1">
-        <MudGrid Spacing="0">
-            <MudItem xs="1">
-                <div class="d-flex flex-column flex-grow-1 gap-1">
-                    <div class="d-flex justify-center flex-grow-1 overflow-hidden" style="height: 50px;">
-                        Epics
+<div Class="my-6 flex-grow-1">
+    <MudGrid Spacing="1" Class="border-solid border rounded-lg pa-3" style="border-color: #e0e0e0ff;">
+        <MudItem xs="2">
+            <div class="d-flex flex-column flex-grow-1 gap-1 border-solid border-r" style="border-color: #e0e0e0ff;">
+                <div class="d-flex justify-center flex-grow-1 overflow-hidden mud-list-subheader" style="height: 50px;">
+                    EPICS
+                </div>
+                @foreach (var epic in _roadmaps)
+                {
+                    <div class="d-flex justify-center flex-grow-1 overflow-hidden mr-2" style="height: 50px;">
+                        <MudChip Class="align-self-center">@epic.EpicName</MudChip>
                     </div>
-                    @foreach (var epic in _roadmaps)
-                    {
-                        <div class="d-flex justify-center flex-grow-1 overflow-hidden" style="height: 50px;">
-                            <MudChip Color="Color.Secondary" Class="align-self-center">@epic.EpicName</MudChip>
-                        </div>
-                    }
-                </div>
-            </MudItem>
-            <MudItem xs="11">
-                <div class="d-flex flex-column flex-grow-1 gap-1 overflow-scroll">
-                    <RoadmapHeader PixelsPerDay=@pixelsPerDay DaysInFourYears=@DaysInFourYears/>
-                    @foreach (var epic in _roadmaps)
-                    {
-                        <MudPaper Width=@((DaysInFourYears * pixelsPerDay).ToString() + "px") Height="50px" Square="true"
-                        Class="pa-2 mud-theme-primary">
-                            <MudPaper Width=@((epic.Duration * pixelsPerDay).ToString() + "px") Height="100%"
-                            Class="mud-theme-tertiary" Style=@("margin-left: " + (epic.DaysFromStartDate * pixelsPerDay).ToString()
-                            +"px;") />
-                        </MudPaper>
-                    }
-                </div>
-            </MudItem>
-        </MudGrid>
-    </div>
-</MudPaper>
+                }
+            </div>
+        </MudItem>
+        <MudItem xs="10">
+            <div class="d-flex flex-column flex-grow-1 gap-1 overflow-scroll pb-6">
+                <RoadmapHeader PixelsPerDay=@pixelsPerDay DaysInFourYears=@DaysInFourYears />
+                @foreach (var epic in _roadmaps)
+                {
+                    <MudPaper Width=@((DaysInFourYears * pixelsPerDay).ToString() + "px") Height="50px" Outlined="true"
+                    Class="pa-2 rounded-tl-xl rounded-br-xl">
+                        <MudPaper Width=@((epic.Duration * pixelsPerDay).ToString() + "px") Height="100%"
+                        Class="mud-theme-tertiary rounded-tl-xl rounded-br-xl" Style=@("margin-left: " +
+                        (epic.DaysFromStartDate * pixelsPerDay).ToString() +"px;") />
+                    </MudPaper>
+                }
+            </div>
+        </MudItem>
+    </MudGrid>
+</div>
 
 @code {
     public class RoadmapGraph
@@ -68,10 +66,9 @@
 
             _roadmaps.Add(new RoadmapGraph()
             {
-                EpicName = i.ToString(),
+                EpicName = Dummy.GenerateEpicTitle(),
                 DaysFromStartDate = daysFromStartDate,
-                Duration =
-            epicDuration
+                Duration = epicDuration
             });
         }
     }
