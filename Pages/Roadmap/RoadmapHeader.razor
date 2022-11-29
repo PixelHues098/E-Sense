@@ -1,0 +1,31 @@
+<MudPaper Width=@((DaysInFourYears * PixelsPerDay).ToString() + "px") Height="50px" Square="true"
+    Class="mud-theme-secondary d-flex flex-row flex-grow-1">
+    @foreach (var dayPerMonth in dayPerMonthList)
+    {
+        <MudPaper Width=@((dayPerMonth.Value * PixelsPerDay).ToString() + "px") Height="50px" Square="true"
+        Class="mud-theme-primary">
+            @dayPerMonth.Key
+        </MudPaper>
+    }
+</MudPaper>
+
+@code {
+    [Parameter] public int PixelsPerDay { get; set; } = 0;
+    [Parameter] public int DaysInFourYears { get; set; } = 0;
+    List<KeyValuePair<string, int>> dayPerMonthList = new List<KeyValuePair<string, int>>();
+    private int monthCount = 0;
+    private DateTime dateStartRange = DateTime.Now.AddYears(-2);
+    private DateTime dateEndRange = DateTime.Now.AddYears(2);
+
+    protected override void OnInitialized()
+    {
+        monthCount = (dateEndRange - dateStartRange).Days / 30;
+        for (int i = 0; i < monthCount; i++)
+        {
+            DateTime iDateTime = dateStartRange.AddMonths(i);
+            string monthYearId = (iDateTime.ToString("MMM")) + (iDateTime.ToString("yyyy"));
+            double monthYearDayCnt = (iDateTime - iDateTime.AddMonths(-1)).TotalDays;
+            dayPerMonthList.Add(new KeyValuePair<string, int>(monthYearId, (int)monthYearDayCnt));
+        }
+    }
+}

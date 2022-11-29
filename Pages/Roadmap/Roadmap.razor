@@ -8,6 +8,9 @@
         <MudGrid Spacing="0">
             <MudItem xs="1">
                 <div class="d-flex flex-column flex-grow-1 gap-1">
+                    <div class="d-flex justify-center flex-grow-1 overflow-hidden" style="height: 50px;">
+                        Epics
+                    </div>
                     @foreach (var epic in _roadmaps)
                     {
                         <div class="d-flex justify-center flex-grow-1 overflow-hidden" style="height: 50px;">
@@ -18,12 +21,13 @@
             </MudItem>
             <MudItem xs="11">
                 <div class="d-flex flex-column flex-grow-1 gap-1 overflow-scroll">
+                    <RoadmapHeader PixelsPerDay=@pixelsPerDay DaysInFourYears=@DaysInFourYears/>
                     @foreach (var epic in _roadmaps)
                     {
-                        <MudPaper Width=@((DaysInFourYears * pixelPerDay).ToString() + "px") Height="50px" Square="true"
+                        <MudPaper Width=@((DaysInFourYears * pixelsPerDay).ToString() + "px") Height="50px" Square="true"
                         Class="pa-2 mud-theme-primary">
-                            <MudPaper Width=@((epic.Duration * pixelPerDay).ToString() + "px") Height="100%"
-                            Class="mud-theme-tertiary" Style=@("margin-left: " + (epic.DaysFromStartDate * pixelPerDay).ToString()
+                            <MudPaper Width=@((epic.Duration * pixelsPerDay).ToString() + "px") Height="100%"
+                            Class="mud-theme-tertiary" Style=@("margin-left: " + (epic.DaysFromStartDate * pixelsPerDay).ToString()
                             +"px;") />
                         </MudPaper>
                     }
@@ -47,23 +51,20 @@
     private List<RoadmapGraph> _roadmaps = new();
     // 365 days per year plus 1 for leap year
     private const int DaysInFourYears = (365 * 4) + 1;
-    private const int pixelPerDay = 10;
-
+    private const int pixelsPerDay = 10;
+    private DateTime dateStartRange = DateTime.Now.AddYears(-2);
+    private DateTime dateEndRange = DateTime.Now.AddYears(2);
+    private int monthCount = 0;
     protected override void OnInitialized()
     {
-        DateTime dateStartRange = DateTime.Now.AddYears(-2);
-        DateTime dateEndRange = DateTime.Now.AddYears(2);
-        for (var i = 0; i < 60; i++)
+        monthCount = (dateEndRange - dateStartRange).Days / 30;
+        for (var i = 0; i < monthCount; i++)
         {
             DateTime epicStartDate = dateStartRange.AddMonths(i);
             DateTime epicEndDate = epicStartDate.AddMonths(1);
 
             int daysFromStartDate = (epicStartDate - dateStartRange).Days;
             int epicDuration = (epicEndDate - epicStartDate).Days;
-
-            Console.WriteLine(daysFromStartDate);
-            Console.WriteLine(epicDuration);
-            Console.WriteLine();
 
             _roadmaps.Add(new RoadmapGraph()
             {
