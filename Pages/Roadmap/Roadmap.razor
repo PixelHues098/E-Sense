@@ -8,20 +8,24 @@
         <MudGrid Spacing="0">
             <MudItem xs="1">
                 <div class="d-flex flex-column flex-grow-1 gap-1">
-                    @for (int i = 0; i < 100; i++)
+                    @foreach (var epic in _roadmaps)
                     {
                         <div class="d-flex justify-center flex-grow-1 overflow-hidden" style="height: 50px;">
-                            <MudChip Color="Color.Secondary" Class="align-self-center">Secondary</MudChip>
+                            <MudChip Color="Color.Secondary" Class="align-self-center">@epic.EpicName</MudChip>
                         </div>
                     }
                 </div>
             </MudItem>
             <MudItem xs="11">
                 <div class="d-flex flex-column flex-grow-1 gap-1 overflow-scroll">
-                    @for (int i = 0; i < 100; i++)
+                    @foreach (var epic in _roadmaps)
                     {
-                        <MudPaper Width=@((DaysInFourYears * 3).ToString() + "px") Height="50px" Elevation="3"
-                        Class="mud-theme-primary" />
+                        <MudPaper Width=@((DaysInFourYears * pixelPerDay).ToString() + "px") Height="50px" Square="true"
+                        Class="pa-2 mud-theme-primary">
+                            <MudPaper Width=@((epic.Duration * pixelPerDay).ToString() + "px") Height="100%"
+                            Class="mud-theme-tertiary" Style=@("margin-left: " + (epic.DaysFromStartDate * pixelPerDay).ToString()
+                            +"px;") />
+                        </MudPaper>
                     }
                 </div>
             </MudItem>
@@ -32,41 +36,42 @@
 @code {
     public class RoadmapGraph
     {
-        public string Name { get; init; } = Dummy.GenerateEpicTitle();
-        public string Definition { get; init; } = Dummy.FillerContent(40);
-        public string PathColor { get; set; } = Dummy.RndPastelColor(false, 3);
-        public string ProgressColor { get; set; } = Dummy.RndPastelColor(false, 3);
-        public string ChipClass { get; set; } = Dummy.RndPastelColor(false, 3) + " white-text";
-        public string ProgressStart { get; set; } = Dummy.RndNum(0, 20).ToString();
-        public string ProgressLength { get; set; } = (Dummy.RndNum(2, 20) * 70).ToString() + "px";
-        public bool HasGreyBackground { get; set; } = false;
-        public string StartDate { get; set; } = DateTime.Now.ToString("MMMM dd, yyyy");
-        public string EndDate { get; set; } = DateTime.Now.AddDays(30).ToString("MMM dd, yyyy");
+        public string EpicName { get; set; } = string.Empty;
+        public DateTime StartDate { get; set; } = DateTime.Now;
+        public DateTime EndDate { get; set; } = DateTime.Now;
+        // Temporary properties as placeholders
+        public int DaysFromStartDate { get; set; } = 0;
+        public int Duration { get; set; } = 0;
     }
 
     private List<RoadmapGraph> _roadmaps = new();
     // 365 days per year plus 1 for leap year
     private const int DaysInFourYears = (365 * 4) + 1;
-    private List<KeyValuePair<string, int>> MonthDayCount = new List<KeyValuePair<string, int>>();
+    private const int pixelPerDay = 10;
 
     protected override void OnInitialized()
     {
-        MonthDayCount.Add(new KeyValuePair<string, int>("January", 31));
-        MonthDayCount.Add(new KeyValuePair<string, int>("Febuary", 28));
-        MonthDayCount.Add(new KeyValuePair<string, int>("March", 31));
-        MonthDayCount.Add(new KeyValuePair<string, int>("April", 30));
-        MonthDayCount.Add(new KeyValuePair<string, int>("May", 31));
-        MonthDayCount.Add(new KeyValuePair<string, int>("June", 30));
-        MonthDayCount.Add(new KeyValuePair<string, int>("July", 31));
-        MonthDayCount.Add(new KeyValuePair<string, int>("August", 31));
-        MonthDayCount.Add(new KeyValuePair<string, int>("September", 30));
-        MonthDayCount.Add(new KeyValuePair<string, int>("October", 31));
-        MonthDayCount.Add(new KeyValuePair<string, int>("November", 30));
-        MonthDayCount.Add(new KeyValuePair<string, int>("December", 31));
-
+        DateTime dateStartRange = DateTime.Now.AddYears(-2);
+        DateTime dateEndRange = DateTime.Now.AddYears(2);
         for (var i = 0; i < 60; i++)
         {
-            _roadmaps.Add(new RoadmapGraph() { HasGreyBackground = i % 2 == 1 });
+            DateTime epicStartDate = dateStartRange.AddMonths(i);
+            DateTime epicEndDate = epicStartDate.AddMonths(1);
+
+            int daysFromStartDate = (epicStartDate - dateStartRange).Days;
+            int epicDuration = (epicEndDate - epicStartDate).Days;
+
+            Console.WriteLine(daysFromStartDate);
+            Console.WriteLine(epicDuration);
+            Console.WriteLine();
+
+            _roadmaps.Add(new RoadmapGraph()
+            {
+                EpicName = i.ToString(),
+                DaysFromStartDate = daysFromStartDate,
+                Duration =
+            epicDuration
+            });
         }
     }
 }
