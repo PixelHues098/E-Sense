@@ -1,0 +1,21 @@
+<MudPaper Width=@(FullRangeWidth + "px") Height="50px" Outlined="true"
+Class="rounded-tl-xl rounded-br-xl" Style=@("padding: 8px; padding-left: " + (Epic.DaysFromStartDate
+* PixelsPerDay).ToString() +"px;")>
+    <MudTooltip Text=@(Epic.StartDate.ToString("MM/dd/yyyy") + " - " +
+    Epic.EndDate.ToString("MM/dd/yyyy")) Arrow="true" Placement="Placement.Top">
+        <MudPaper Width=@((Epic.Duration * PixelsPerDay).ToString() + "px") Height="32px"
+        Class=@("rounded-tl-xl rounded-br-xl " + Epic.Color ) />
+    </MudTooltip>
+</MudPaper>
+
+@code{
+    [Parameter] public int DaysInFourYears { get; set; }
+    [Parameter] public int PixelsPerDay { get; set; }
+    [Parameter] public RoadmapGraph Epic { get; set; }
+    string FullRangeWidth = "0";
+
+    protected override void OnInitialized()
+    {
+        FullRangeWidth = (DaysInFourYears * PixelsPerDay).ToString();
+    }
+}

@@ -6,7 +6,7 @@
 <div Class="my-6 flex-grow-1">
     <MudGrid Spacing="1" Class="border-solid border rounded-lg pa-3" style="border-color: #e0e0e0ff;">
         <MudItem xs="1">
-            <div class="d-flex flex-column flex-grow-1 gap-1 border-solid border-r" style="border-color: #e0e0e0ff;">
+            <div class="d-flex flex-column flex-grow-1 gap-1">
                 <div class="d-flex justify-center flex-grow-1 overflow-hidden mud-list-subheader" style="height: 50px;">
                     EPICS
                 </div>
@@ -26,12 +26,7 @@
                 <RoadmapHeader PixelsPerDay=@pixelsPerDay DaysInFourYears=@DaysInFourYears />
                 @foreach (var epic in _roadmaps)
                 {
-                    <MudPaper Width=@((DaysInFourYears * pixelsPerDay).ToString() + "px") Height="50px" Outlined="true"
-                    Class="pa-2 rounded-tl-xl rounded-br-xl">
-                        <MudPaper Width=@((epic.Duration * pixelsPerDay).ToString() + "px") Height="100%"
-                        Class=@("rounded-tl-xl rounded-br-xl " + epic.Color ) Style=@("margin-left: " +
-                        (epic.DaysFromStartDate * pixelsPerDay).ToString() +"px;") />
-                    </MudPaper>
+                    <EpicTimePlot DaysInFourYears=@DaysInFourYears PixelsPerDay=@pixelsPerDay Epic=@epic />
                 }
             </div>
         </MudItem>
@@ -39,17 +34,6 @@
 </div>
 
 @code {
-    public class RoadmapGraph
-    {
-        public string EpicName { get; set; } = string.Empty;
-        public DateTime StartDate { get; set; } = DateTime.Now;
-        public DateTime EndDate { get; set; } = DateTime.Now;
-        // Temporary properties as placeholders
-        public string Color { get; set; } = string.Empty;
-        public int DaysFromStartDate { get; set; } = 0;
-        public int Duration { get; set; } = 0;
-    }
-
     private List<RoadmapGraph> _roadmaps = new();
     // 365 days per year plus 1 for leap year
     private const int DaysInFourYears = (365 * 4) + 1;
@@ -72,6 +56,8 @@
             {
                 EpicName = Dummy.GenerateEpicTitle(),
                 DaysFromStartDate = daysFromStartDate,
+                StartDate = DateTime.Now.AddDays(daysFromStartDate),
+                EndDate = DateTime.Now.AddDays(daysFromStartDate).AddMonths(1),
                 Duration = epicDuration,
                 Color = Dummy.RndPastelColor(false, 3)
             });
