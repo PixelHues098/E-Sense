@@ -1,9 +1,15 @@
 ﻿@page "/"
+@page "/welcome"
+@layout SignupLayout
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Welcome to E-Sense</PageTitle>
 
-<MudText Typo="Typo.h3" GutterBottom="true">Welcome to E-Sense!</MudText>
-<MudText Class="mb-8">Welcome to your new app, powered by MudBlazor!</MudText>
-<MudAlert Severity="Severity.Normal">You can find documentation and examples on our website here: <MudLink
-        Href="https://mudblazor.com" Typo="Typo.body2" Color="Color.Inherit"><b>www.mudblazor.com</b></MudLink>
-</MudAlert>
+<MudMainContent>
+        <div style="position: fixed; top: 0; left: 0; height: 100vh; width: 100vh;">
+
+                <MudImage Src="images/bg.jpg" Alt="ESenseIndex" MaxWidth="100%" MaxHeight="100%" Elevation="0" />
+        </div>
+<MudPaper Height="500px" Elevation="0">
+<MudButton Style = "height:80px; width:150px; top:500px; left:900px;"  href ="login" Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large">Get Started</MudButton>
+</MudPaper>
+</MudMainContent>
