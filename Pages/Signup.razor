@@ -1,5 +1,4 @@
 @page "/signup"
-@layout SignupLayout
 
 <MudContainer MaxWidth="MaxWidth.Small">
     <MudPaper Class="rounded-lg">
@@ -22,7 +21,6 @@
                     Class="flex-auto flex-grow-1" />
             </div>
 
-            <MudTextField @bind-Value="Username" Label="Username" Variant="Variant.Outlined" />
             <MudTextField @bind-Value="Email" Label="Email" Variant="Variant.Outlined" />
             <MudTextField @bind-Value="Password" Label="Password" Variant="Variant.Outlined" InputType="@PasswordInput"
                 Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ShowHidePassClick"
@@ -42,7 +40,6 @@
 @code {
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
-    public string Username { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
     public string CPassword { get; set; } = string.Empty;
