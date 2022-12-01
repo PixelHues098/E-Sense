@@ -1,0 +1,66 @@
+@page "/roadmap"
+@using System.Net.Http.Json
+@using static MyApplication.Dummy
+
+<FilterTools />
+<div Class="my-6 flex-grow-1">
+    <MudGrid Spacing="1" Class="border-solid border rounded-lg pa-3" style="border-color: #e0e0e0ff;">
+        <MudItem xs="1">
+            <div class="d-flex flex-column flex-grow-1 gap-1">
+                <div class="d-flex justify-center flex-grow-1 overflow-hidden mud-list-subheader" style="height: 50px;">
+                    EPICS
+                </div>
+                @foreach (var epic in _roadmaps)
+                {
+                    <div class="d-flex justify-end flex-grow-1 overflow-hidden mr-2" style="height: 50px;">
+                        <MudChip Label="true" Class=@("d-flex flex-grow-1 grey-text text-lighten-3 align-self-center " +
+                        epic.Color)>
+                            @epic.EpicName
+                        </MudChip>
+                    </div>
+                }
+            </div>
+        </MudItem>
+        <MudItem xs="11">
+            <div class="d-flex flex-column flex-grow-1 gap-1 overflow-scroll pb-6">
+                <RoadmapHeader PixelsPerDay=@pixelsPerDay DaysInFourYears=@DaysInFourYears />
+                @foreach (var epic in _roadmaps)
+                {
+                    <EpicTimePlot DaysInFourYears=@DaysInFourYears PixelsPerDay=@pixelsPerDay Epic=@epic />
+                }
+            </div>
+        </MudItem>
+    </MudGrid>
+</div>
+
+@code {
+    private List<RoadmapGraph> _roadmaps = new();
+    // 365 days per year plus 1 for leap year
+    private const int DaysInFourYears = (365 * 4) + 1;
+    private const int pixelsPerDay = 10;
+    private DateTime dateStartRange = DateTime.Now.AddYears(-2);
+    private DateTime dateEndRange = DateTime.Now.AddYears(2);
+    private int monthCount = 0;
+    protected override void OnInitialized()
+    {
+        monthCount = (dateEndRange - dateStartRange).Days / 30;
+        for (var i = 0; i < monthCount; i++)
+        {
+            DateTime epicStartDate = dateStartRange.AddMonths(i);
+            DateTime epicEndDate = epicStartDate.AddMonths(1);
+
+            int daysFromStartDate = (epicStartDate - dateStartRange).Days;
+            int epicDuration = (epicEndDate - epicStartDate).Days;
+
+            _roadmaps.Add(new RoadmapGraph()
+            {
+                EpicName = Dummy.GenerateEpicTitle(),
+                DaysFromStartDate = daysFromStartDate,
+                StartDate = DateTime.Now.AddDays(daysFromStartDate),
+                EndDate = DateTime.Now.AddDays(daysFromStartDate).AddMonths(1),
+                Duration = epicDuration,
+                Color = Dummy.RndPastelColor(false, 3)
+            });
+        }
+    }
+}

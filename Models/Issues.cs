@@ -13,12 +13,16 @@ namespace MyApplication.Models
         public MudBlazor.Color IconColor { get; set; }
         public int Priority { get; set; } = Dummy.RndNum(0, 4);
         public char Asignee { get; set; } = Dummy.RndCapitalChar();
-
         public string IssueIconColor { get; set; } = Dummy.RndPastelColor(true, 3);
-
         public string EpicTitle { get; set; } = Dummy.GenerateEpicTitle();
         public string EpicColor { get; set; } = Dummy.RndPastelColor(false, 3) + " white-text";
         public string AsigneeColor { get; set; } = Dummy.RndPastelColor(false, 3);
+    }
 
+    public class Epic : Issue
+    {
+        public string StartDate { get; init; }
+        public string EndDate { get; init; }
+        public string Color { get; init; }
     }
 }

@@ -3,7 +3,7 @@
 @using MyApplication.Models
 @using static MyApplication.Dummy
 
-<FilterTools/>
+<FilterTools />
 <MudDropContainer T="Issue" Items="_issues" ItemsSelector="@((item,dropzone) => item.SprintIteration == dropzone)"
     ItemDropped="ItemUpdated">
     <ChildContent>
@@ -11,15 +11,13 @@
         @for (int i = 1; i < 7; i++)
         {
             var dropzone = i.ToString();
-            <DropContainer DropZone=@dropzone/>
+            <DropContainer DropZone=@dropzone />
         }
     </ChildContent>
     <ItemRenderer>
-        <IssueItem Context=@context/>
+        <IssueItem Context=@context />
     </ItemRenderer>
 </MudDropContainer>
-
-
 
 @code {
 
