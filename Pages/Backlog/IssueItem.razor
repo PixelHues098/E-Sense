@@ -1,0 +1,30 @@
+<MudListItem Class="py-0">
+    <div Class="d-flex align-center gap-4" Style="font-size: 14px;">
+        <MudIcon Icon=@Context.Icon Class=@("flex-none d-flex " + Context.IssueIconColor) />
+
+        <div Class="flex-none d-flex overflow-hidden" Style="width: 250px; white-space: nowrap;">
+            @Context.Title
+        </div>
+
+        <MudIcon Icon=@Icons.Filled.KeyboardArrowRight Color="Color.Dark" />
+
+        <div Class="flex-1 d-flex py-1 overflow-hidden" Style="white-space: nowrap;">
+            @Context.Definition
+        </div>
+
+        <MudChip Text="blue" Variant="Variant.Filled" Class=@Context.EpicColor Size="Size.Small">
+            @Context.EpicTitle
+        </MudChip>
+
+        <MudAvatar Class=@Context.AsigneeColor Variant="Variant.Filled" Size="Size.Small">
+            @Context.Asignee
+        </MudAvatar>
+
+        <PriorityIcon Priority=@Context.Priority/>
+
+    </div>
+</MudListItem>
+
+@code{
+    [Parameter] public Issue Context { get; set; }
+}

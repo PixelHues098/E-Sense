@@ -1,0 +1,44 @@
+@page "/backlog"
+@inject ISnackbar Snackbar
+@using MyApplication.Models
+@using static MyApplication.Dummy
+
+<FilterTools/>
+<MudDropContainer T="Issue" Items="_issues" ItemsSelector="@((item,dropzone) => item.SprintIteration == dropzone)"
+    ItemDropped="ItemUpdated">
+    <ChildContent>
+        @* TODO: Change this for loop to loop through drop containers a specific project has *@
+        @for (int i = 1; i < 7; i++)
+        {
+            var dropzone = i.ToString();
+            <DropContainer DropZone=@dropzone/>
+        }
+    </ChildContent>
+    <ItemRenderer>
+        <IssueItem Context=@context/>
+    </ItemRenderer>
+</MudDropContainer>
+
+
+
+@code {
+
+    private void ItemUpdated(MudItemDropInfo<Issue> dropItem)
+    {
+        if (dropItem.Item.SprintIteration != dropItem.DropzoneIdentifier)
+        {
+            Snackbar.Add(dropItem.Item.Id + " has been moved to Sprint " + dropItem.DropzoneIdentifier, Severity.Success);
+            dropItem.Item.SprintIteration = dropItem.DropzoneIdentifier;
+        }
+    }
+
+    private List<Issue> _issues = new();
+
+    protected override void OnInitialized()
+    {
+        // TODO: Replace for loop with query from backend for real data
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomLeft;
+        for (var i = 0; i < 30; i++)
+            _issues.Add(new Issue());
+    }
+}
