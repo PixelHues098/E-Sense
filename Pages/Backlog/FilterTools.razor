@@ -1,3 +1,34 @@
 @* TODO: Add filter buttons and related functionality here *@
-<MudText Typo="Typo.h5" Class="mb-4 ml-6 mt-6">Backlog</MudText>
-<MudDivider />
+<MudText Align="Align.Left" Typo="Typo.h5" Class="mb-4  mt-6">Backlog</MudText>
+
+<MudPaper Class="d-flex align-start" Elevation="0">
+<MudTextField Style="width:200px;"  @bind-Value="Search" Label="Search" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Filled.Search" AdornmentColor="Color.Secondary" />
+
+<MudPaper Class=" mt-3 d-flex" Width="2000px" Height="60px" Elevation="0">
+<MudAvatarGroup Style="top:500px; right:500px;" Max="@max" Spacing="@spacing" MaxColor="Color.Primary">
+    <MudAvatar Image="images/ally-modified.png" />
+    <MudAvatar Image="images/adrian-modified.png" />
+    <MudAvatar Image="images/nicko-modified.png" />
+    <MudAvatar Image="images/eli.jpg" />
+</MudAvatarGroup>
+<MudFab DisableElevation="true"  StartIcon="@Icons.Filled.PersonAddAlt1" Size="Size.Small" />
+</MudPaper>
+
+@* <MudPaper Class=" mt-5 mr-1" Width="360px" Elevation="0">
+<MudText Align="Align.Right" Typo="Typo.h6">GROUP BY</MudText>
+</MudPaper> *@
+<MudPaper Class=" mt-2 d-flex" Width="250px" Elevation="0">
+<MudSelect Style="width:90px;" Margin="Margin.Dense" Label="Group by" T="string" Variant="Variant.Filled">
+    <MudSelectItem Value="@("None")" />
+    <MudSelectItem Value="@("Asignee")" />
+    <MudSelectItem Value="@("Subtask")" />
+</MudSelect>
+</MudPaper>
+
+</MudPaper>
+
+@code{
+    public string Search { get; set;}
+    int max = 5;
+    int spacing = 3;
+}
