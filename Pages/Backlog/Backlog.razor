@@ -2,7 +2,7 @@
 @inject ISnackbar Snackbar
 @using MyApplication.Models
 @using static MyApplication.Dummy
-
+<PageTitle>Backlog</PageTitle>
 <FilterTools />
 <MudDropContainer T="Issue" Items="_issues" ItemsSelector="@((item,dropzone) => item.SprintIteration == dropzone)"
     ItemDropped="ItemUpdated">
