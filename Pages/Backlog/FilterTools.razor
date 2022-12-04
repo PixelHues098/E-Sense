@@ -1,3 +1,36 @@
-@* TODO: Add filter buttons and related functionality here *@
-<MudText Typo="Typo.h5" Class="mb-4 ml-6 mt-6">Backlog</MudText>
-<MudDivider />
+<MudText Align="Align.Left" Typo="Typo.h5" Class="mb-4  mt-6">Backlog</MudText>
+
+<div Class="d-flex flex-grow-1 align-content-center gap-4">
+    <div>
+        <MudTextField Class="flex-grow-0" @bind-Value="Search" Label="Search" Variant="Variant.Outlined"
+            Adornment="Adornment.End" AdornmentIcon="@Icons.Filled.Search" AdornmentColor="Color.Dark" />
+    </div>
+
+    <div Class="d-flex justify-start align-content-center flex-wrap flex-grow-1">
+        <MudAvatarGroup Max=6 Spacing=3 MaxColor="Color.Primary">
+            <MudAvatar />
+            <MudAvatar />
+            <MudAvatar />
+            <MudAvatar />
+            <MudAvatar />
+            <MudAvatar />
+        </MudAvatarGroup>
+        <MudFab DisableElevation="true" StartIcon=@Icons.Filled.PersonAddAlt1 Size="Size.Small" />
+    </div>
+
+    <div>
+        <MudSelect Class="flex-grow-0" Margin="Margin.Dense" Label="Sort by" T="string" Variant="Variant.Filled">
+            @* TODO: Filter options will be decided once implementation in the backend is done *@
+            <MudSelectItem Value=@("Name") />
+            <MudSelectItem Value=@("Priority") />
+            <MudSelectItem Value=@("Date") />
+            <MudSelectItem Value=@("Asignee") />
+        </MudSelect>
+    </div>
+
+
+</div>
+
+@code {
+    public string Search { get; set; }
+}
