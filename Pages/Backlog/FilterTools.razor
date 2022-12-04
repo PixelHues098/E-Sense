@@ -1,32 +1,36 @@
-@* TODO: Add filter buttons and related functionality here *@
 <MudText Align="Align.Left" Typo="Typo.h5" Class="mb-4  mt-6">Backlog</MudText>
 
-<MudPaper Class="d-flex align-start" Elevation="0">
-<MudTextField Style="width:200px;"  @bind-Value="Search" Label="Search" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Filled.Search" AdornmentColor="Color.Secondary" />
+<div Class="d-flex flex-grow-1 align-content-center gap-4">
+    <div>
+        <MudTextField Class="flex-grow-0" @bind-Value="Search" Label="Search" Variant="Variant.Outlined"
+            Adornment="Adornment.End" AdornmentIcon="@Icons.Filled.Search" AdornmentColor="Color.Dark" />
+    </div>
 
-<MudPaper Class=" mt-3 d-flex" Width="900px" Height="60px" Elevation="0">
-<MudAvatarGroup Style="top:500px;" Max="@max" Spacing="@spacing" MaxColor="Color.Primary">
-    <MudAvatar Image="images/n.png" />
-    <MudAvatar Image="images/e.jpg" />
-    <MudAvatar Image="images/k.png" />
-    <MudAvatar Image="images/o.png" />
-</MudAvatarGroup>
-<MudFab DisableElevation="true"  StartIcon="@Icons.Filled.PersonAddAlt1" Size="Size.Small" />
-</MudPaper>
+    <div Class="d-flex justify-start align-content-center flex-wrap flex-grow-1">
+        <MudAvatarGroup Max=6 Spacing=3 MaxColor="Color.Primary">
+            <MudAvatar />
+            <MudAvatar />
+            <MudAvatar />
+            <MudAvatar />
+            <MudAvatar />
+            <MudAvatar />
+        </MudAvatarGroup>
+        <MudFab DisableElevation="true" StartIcon=@Icons.Filled.PersonAddAlt1 Size="Size.Small" />
+    </div>
+
+    <div>
+        <MudSelect Class="flex-grow-0" Margin="Margin.Dense" Label="Sort by" T="string" Variant="Variant.Filled">
+            @* TODO: Filter options will be decided once implementation in the backend is done *@
+            <MudSelectItem Value=@("Name") />
+            <MudSelectItem Value=@("Priority") />
+            <MudSelectItem Value=@("Date") />
+            <MudSelectItem Value=@("Asignee") />
+        </MudSelect>
+    </div>
 
 
-<MudPaper Class=" mt-2 d-flex" Width="120px" Elevation="0">
-<MudSelect Style="width:90px;" Margin="Margin.Dense" Label="Group by" T="string" Variant="Variant.Filled">
-    <MudSelectItem Value="@("None")" />
-    <MudSelectItem Value="@("Asignee")" />
-    <MudSelectItem Value="@("Subtask")" />
-</MudSelect>
-</MudPaper>
+</div>
 
-</MudPaper>
-
-@code{
-    public string Search { get; set;}
-    int max = 5;
-    int spacing = 4;
+@code {
+    public string Search { get; set; }
 }
